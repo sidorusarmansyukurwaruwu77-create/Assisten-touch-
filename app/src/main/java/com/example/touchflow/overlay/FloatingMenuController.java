@@ -43,6 +43,7 @@ public class FloatingMenuController {
         void onMenuClosed();
         void onOpenQuickPanel();
         void onExecuteAction(ActionItem action);
+        default void onOpenMiniMax() {}
     }
 
     private final Context context;
@@ -95,6 +96,15 @@ public class FloatingMenuController {
             context.startActivity(intent);
         });
 
+        ImageButton btnMiniMax = rootView.findViewById(R.id.btn_menu_minimax);
+        if (btnMiniMax != null) {
+            btnMiniMax.setOnClickListener(v -> {
+                systemActionHelper.performHaptic(config.hapticEnabled);
+                dismiss(false);
+                if (listener != null) listener.onOpenMiniMax();
+            });
+        }
+
         TextView btnQuickPanel = rootView.findViewById(R.id.btn_switch_quick_panel);
         btnQuickPanel.setOnClickListener(v -> {
             systemActionHelper.performHaptic(config.hapticEnabled);
@@ -137,6 +147,12 @@ public class FloatingMenuController {
 
         TextView title = rootView.findViewById(R.id.tv_menu_title);
         title.setTextColor(primaryText);
+
+        ImageButton btnMiniMax = rootView.findViewById(R.id.btn_menu_minimax);
+        if (btnMiniMax != null) {
+            OverlayThemeApplier.applyTileBackground(context, btnMiniMax, config, false);
+            ImageViewCompat.setImageTintList(btnMiniMax, ColorStateList.valueOf(accent));
+        }
 
         TextView btnQuickPanel = rootView.findViewById(R.id.btn_switch_quick_panel);
         btnQuickPanel.setTextColor(primaryText);

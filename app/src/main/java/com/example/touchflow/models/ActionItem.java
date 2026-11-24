@@ -29,6 +29,7 @@ public enum ActionItem {
     // Gesture-only / Navigation helpers
     OPEN_MENU("open_menu", R.string.action_open_menu, R.drawable.ic_orb_ring, false, false),
     QUICK_PANEL("quick_panel", R.string.action_quick_panel, R.drawable.ic_action_quick_panel, false, false),
+    MINIMAX_ASSISTANT("minimax_assistant", R.string.action_minimax, R.drawable.ic_minimax, false, false),
     NONE("none", R.string.action_none, R.drawable.ic_close, false, false);
 
     private final String id;
@@ -94,6 +95,7 @@ public enum ActionItem {
         List<ActionItem> list = new ArrayList<>();
         list.add(OPEN_MENU);
         list.add(QUICK_PANEL);
+        list.add(MINIMAX_ASSISTANT);
         list.addAll(getMainMenuActions());
         list.add(NONE);
         return list;

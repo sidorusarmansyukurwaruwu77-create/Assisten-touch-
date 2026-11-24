@@ -97,17 +97,25 @@
     <string name="permissions_subtitle">TouchFlow uses only official Android APIs and requests permissions transparently</string>
 
     <!-- About -->
-    <string name="about_version_label">Version 1.0.0</string>
+    <string name="about_version_label">Version 1.1.0</string>
     <string name="about_dev_info">Crafted with native Android APIs (WindowManager, AccessibilityService, Foreground Service, DynamicAnimation, and Material Design 3).</string>
     <string name="about_privacy_title">Privacy &amp; Transparency Policy</string>
     <string name="about_privacy_body">TouchFlow operates 100% locally on your device.\n\n• Zero Data Collection: TouchFlow does not collect, store, transmit, or share personal data, keystrokes, screen contents, or usage analytics.\n\n• Accessibility Service Usage: Used exclusively to execute user-initiated global actions (Home, Back, Recent Apps, Screenshot, Lock Screen, Notifications, Quick Settings, Power Dialog). Window content retrieval is disabled.\n\n• Overlay &amp; Foreground Service: Used only while TouchFlow is enabled to keep the floating assistant button visible and responsive.\n\n• Package Queries: Used only to let you pick up to 8 installed launcher apps for your personal shortcut list.</string>
 
     <!-- Content descriptions -->
     <string name="cd_about_button">Open About and Privacy Info</string>
+    <string name="cd_open_minimax">Open MiniMax Assistant</string>
     <string name="cd_floating_button">TouchFlow floating assistive button</string>
     <string name="cd_move_up">Move shortcut up</string>
     <string name="cd_move_down">Move shortcut down</string>
     <string name="cd_remove_shortcut">Remove shortcut</string>
     <string name="cd_close_menu">Close floating menu</string>
     <string name="cd_back_to_menu">Back to assistive menu</string>
+
+    <!-- MiniMax Assistant -->
+    <string name="minimax_title">MiniMax Assistant</string>
+    <string name="minimax_subtitle">Auto Mini Window &amp; OEM Floating Engine</string>
+    <string name="action_minimax">MiniMax</string>
+    <string name="dash_minimax_title">MiniMax Assistant</string>
+    <string name="dash_minimax_open">Open MiniMax</string>
 </resources>

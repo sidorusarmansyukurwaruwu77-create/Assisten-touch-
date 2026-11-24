@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/minimax_dock_root"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:elevation="14dp"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:paddingHorizontal="10dp"
+    android:paddingVertical="8dp">
+
+    <ImageView
+        android:id="@+id/iv_minimax_dock_app"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:contentDescription="@null"
+        android:src="@drawable/ic_minimax" />
+
+    <LinearLayout
+        android:id="@+id/btn_minimax_dock_launch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:minHeight="36dp"
+        android:orientation="vertical"
+        android:paddingEnd="8dp">
+
+        <TextView
+            android:id="@+id/tv_minimax_dock_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:fontFamily="@font/space_grotesk"
+            android:maxWidth="128dp"
+            android:maxLines="1"
+            android:text="MiniMax Ready"
+            android:textColor="@color/tf_text_primary"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_minimax_dock_sub"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:fontFamily="@font/inter"
+            android:maxWidth="136dp"
+            android:maxLines="1"
+            android:text="Tap for Mini Window"
+            android:textColor="@color/tf_secondary"
+            android:textSize="10.5sp" />
+    </LinearLayout>
+
+    <ImageButton
+        android:id="@+id/btn_minimax_dock_open_full"
+        android:layout_width="34dp"
+        android:layout_height="34dp"
+        android:background="@drawable/bg_pill_badge"
+        android:contentDescription="Open app"
+        android:padding="7dp"
+        android:scaleType="centerInside"
+        android:src="@drawable/ic_minimax" />
+
+    <ImageButton
+        android:id="@+id/btn_minimax_dock_close"
+        android:layout_width="34dp"
+        android:layout_height="34dp"
+        android:layout_marginStart="6dp"
+        android:background="@drawable/bg_pill_badge"
+        android:contentDescription="@string/cd_close_menu"
+        android:padding="8dp"
+        android:scaleType="centerInside"
+        android:src="@drawable/ic_close" />
+
+</LinearLayout>

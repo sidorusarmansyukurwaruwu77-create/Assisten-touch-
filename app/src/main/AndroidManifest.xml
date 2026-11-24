@@ -22,6 +22,18 @@
             <action android:name="android.intent.action.MAIN" />
             <category android:name="android.intent.category.LAUNCHER" />
         </intent>
+        <intent>
+            <action android:name="android.intent.action.MAIN" />
+            <category android:name="android.intent.category.HOME" />
+        </intent>
+        <package android:name="com.transsion.hioslauncher" />
+        <package android:name="com.transsion.smartpanel" />
+        <package android:name="com.transsion.XOSLauncher" />
+        <package android:name="com.sec.android.app.launcher" />
+        <package android:name="com.miui.home" />
+        <package android:name="com.oppo.launcher" />
+        <package android:name="com.coloros.floatassistant" />
+        <package android:name="com.bbk.launcher2" />
     </queries>
 
     <application

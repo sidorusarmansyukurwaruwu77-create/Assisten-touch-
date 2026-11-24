@@ -19,6 +19,10 @@ import androidx.fragment.app.Fragment;
 
 import com.example.R;
 import com.example.touchflow.activities.MainActivity;
+import com.example.touchflow.minimax.engine.DeviceCompatibilityEngine;
+import com.example.touchflow.minimax.models.DeviceCompatibilityReport;
+import com.example.touchflow.minimax.models.MiniMaxConfig;
+import com.example.touchflow.minimax.preferences.MiniMaxPreferences;
 import com.example.touchflow.models.TouchFlowConfig;
 import com.example.touchflow.overlay.OverlayThemeApplier;
 import com.example.touchflow.preferences.TouchFlowPreferences;
@@ -31,6 +35,7 @@ import com.google.android.material.button.MaterialButton;
 public class DashboardFragment extends Fragment {
 
     private TouchFlowPreferences preferences;
+    private MiniMaxPreferences miniMaxPreferences;
     private SystemActionHelper systemActionHelper;
 
     private TextView tvStatusBadge;
@@ -42,6 +47,8 @@ public class DashboardFragment extends Fragment {
     private TextView tvPermPill;
     private TextView tvPermDetail;
     private TextView tvConfigSummary;
+    private TextView tvDashMiniMaxStatus;
+    private TextView tvDashMiniMaxPill;
     private ImageView ivDashFlashlight;
     private TextView tvDashFlashlight;
 
@@ -61,6 +68,7 @@ public class DashboardFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         preferences = new TouchFlowPreferences(requireContext());
+        miniMaxPreferences = new MiniMaxPreferences(requireContext());
         systemActionHelper = new SystemActionHelper(requireContext());
         systemActionHelper.registerTorchListener(enabled -> {
             if (isAdded()) updateFlashlightTile(enabled);
@@ -75,6 +83,8 @@ public class DashboardFragment extends Fragment {
         tvPermPill = view.findViewById(R.id.tv_perm_summary_pill);
         tvPermDetail = view.findViewById(R.id.tv_perm_detail_line);
         tvConfigSummary = view.findViewById(R.id.tv_config_summary_body);
+        tvDashMiniMaxStatus = view.findViewById(R.id.tv_dash_minimax_status);
+        tvDashMiniMaxPill = view.findViewById(R.id.tv_dash_minimax_pill);
         ivDashFlashlight = view.findViewById(R.id.iv_dash_flashlight);
         tvDashFlashlight = view.findViewById(R.id.tv_dash_flashlight);
 
@@ -127,7 +137,14 @@ public class DashboardFragment extends Fragment {
             }
         });
 
+        view.findViewById(R.id.card_dash_minimax).setOnClickListener(v -> {
+            if (getActivity() instanceof MainActivity) {
+                ((MainActivity) getActivity()).openMiniMaxPage();
+            }
+        });
+
         preferences.registerListener(prefsListener);
+        miniMaxPreferences.registerListener(prefsListener);
         refreshUi();
     }
 
@@ -141,6 +158,9 @@ public class DashboardFragment extends Fragment {
     public void onDestroyView() {
         if (preferences != null) {
             preferences.unregisterListener(prefsListener);
+        }
+        if (miniMaxPreferences != null) {
+            miniMaxPreferences.unregisterListener(prefsListener);
         }
         if (systemActionHelper != null) {
             systemActionHelper.unregisterTorchListener();
@@ -218,6 +238,20 @@ public class DashboardFragment extends Fragment {
                         + " / " + getString(config.doubleTapAction.getTitleRes()) + "\n"
                         + "• Favorite App Shortcuts: " + shortcutsCount + " / " + TouchFlowPreferences.MAX_SHORTCUTS + " pinned"
         );
+
+        // MiniMax Summary
+        MiniMaxConfig mmConfig = miniMaxPreferences.loadConfig();
+        DeviceCompatibilityReport report = DeviceCompatibilityEngine.inspect(requireContext());
+        tvDashMiniMaxStatus.setText(
+                "Auto Mini: " + (mmConfig.autoMiniEnabled ? "ON" : "OFF")
+                        + " • " + report.oemSkin.getDisplayName()
+                        + " (" + report.capabilityTierLabel + ")"
+        );
+        tvDashMiniMaxPill.setText(mmConfig.autoMiniEnabled ? "ON" : "Setup");
+        tvDashMiniMaxPill.setTextColor(ContextCompat.getColor(
+                requireContext(),
+                mmConfig.autoMiniEnabled ? R.color.tf_success : R.color.tf_secondary
+        ));
 
         updateFlashlightTile(systemActionHelper.isTorchOn());
     }

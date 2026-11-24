@@ -35,6 +35,7 @@ public class SystemActionHelper {
         void onRequestCloseMenu();
         void onRequestOpenMenu();
         void onRequestOpenQuickPanel();
+        default void onRequestOpenMiniMax() {}
     }
 
     private final Context appContext;
@@ -134,6 +135,13 @@ public class SystemActionHelper {
                 break;
             case QUICK_PANEL:
                 if (callback != null) callback.onRequestOpenQuickPanel();
+                break;
+            case MINIMAX_ASSISTANT:
+                if (callback != null) {
+                    callback.onRequestOpenMiniMax();
+                } else {
+                    com.example.touchflow.services.FloatingOverlayService.openMiniMaxDockFromApp(appContext);
+                }
                 break;
             case HOME:
                 if (callback != null) callback.onRequestCloseMenu();

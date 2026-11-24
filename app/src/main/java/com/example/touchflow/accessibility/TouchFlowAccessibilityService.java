@@ -4,6 +4,8 @@ import android.accessibilityservice.AccessibilityService;
 import android.os.Build;
 import android.view.accessibility.AccessibilityEvent;
 
+import com.example.touchflow.minimax.engine.MiniMaxAutomationEngine;
+
 import java.lang.ref.WeakReference;
 
 public class TouchFlowAccessibilityService extends AccessibilityService {
@@ -18,7 +20,13 @@ public class TouchFlowAccessibilityService extends AccessibilityService {
 
     @Override
     public void onAccessibilityEvent(AccessibilityEvent event) {
-        // TouchFlow does not read or inspect window contents.
+        if (event == null) return;
+        if (event.getEventType() == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED
+                && event.getPackageName() != null) {
+            // Read only the active window package name (canRetrieveWindowContent remains false).
+            MiniMaxAutomationEngine.getInstance(this)
+                    .onWindowStateChanged(event.getPackageName().toString());
+        }
     }
 
     @Override
@@ -48,7 +56,15 @@ public class TouchFlowAccessibilityService extends AccessibilityService {
 
     public static boolean performHome() {
         TouchFlowAccessibilityService service = getInstance();
-        return service != null && service.performGlobalAction(GLOBAL_ACTION_HOME);
+        if (service == null) return false;
+        boolean ok = service.performGlobalAction(GLOBAL_ACTION_HOME);
+        if (ok) {
+            try {
+                MiniMaxAutomationEngine.getInstance(service).onTouchFlowHomePressed();
+            } catch (Exception ignored) {
+            }
+        }
+        return ok;
     }
 
     public static boolean performBack() {

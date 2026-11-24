@@ -15,6 +15,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import com.example.R;
 import com.example.touchflow.fragments.AppearanceFragment;
@@ -22,12 +23,15 @@ import com.example.touchflow.fragments.DashboardFragment;
 import com.example.touchflow.fragments.GesturesFragment;
 import com.example.touchflow.fragments.PermissionsFragment;
 import com.example.touchflow.fragments.ShortcutsFragment;
+import com.example.touchflow.minimax.ui.MiniMaxFragment;
 import com.example.touchflow.preferences.TouchFlowPreferences;
 import com.example.touchflow.services.FloatingOverlayService;
 import com.example.touchflow.utilities.PermissionHelper;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
+
+    public static final String EXTRA_OPEN_MINIMAX = "extra_open_minimax";
 
     private BottomNavigationView bottomNav;
     private TouchFlowPreferences preferences;
@@ -64,6 +68,8 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
+        findViewById(R.id.btn_open_minimax).setOnClickListener(v -> openMiniMaxPage());
+
         ImageButton btnAbout = findViewById(R.id.btn_about);
         btnAbout.setOnClickListener(v -> startActivity(new Intent(this, AboutActivity.class)));
 
@@ -91,6 +97,18 @@ public class MainActivity extends AppCompatActivity {
 
         if (savedInstanceState == null) {
             bottomNav.setSelectedItemId(R.id.nav_dashboard);
+            if (getIntent() != null && getIntent().getBooleanExtra(EXTRA_OPEN_MINIMAX, false)) {
+                openMiniMaxPage();
+            }
+        }
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        setIntent(intent);
+        if (intent != null && intent.getBooleanExtra(EXTRA_OPEN_MINIMAX, false)) {
+            openMiniMaxPage();
         }
     }
 
@@ -108,6 +126,24 @@ public class MainActivity extends AppCompatActivity {
         if (bottomNav != null) {
             bottomNav.setSelectedItemId(menuItemId);
         }
+    }
+
+    public void openMiniMaxPage() {
+        Fragment current = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+        if (current instanceof MiniMaxFragment) {
+            return;
+        }
+        getSupportFragmentManager()
+                .beginTransaction()
+                .setCustomAnimations(
+                        android.R.anim.fade_in,
+                        android.R.anim.fade_out,
+                        android.R.anim.fade_in,
+                        android.R.anim.fade_out
+                )
+                .replace(R.id.fragment_container, new MiniMaxFragment(), "minimax")
+                .addToBackStack("minimax")
+                .commit();
     }
 
     public void toggleTouchFlowService() {
@@ -136,8 +172,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void switchFragment(Fragment fragment) {
-        getSupportFragmentManager()
-                .beginTransaction()
+        FragmentManager fm = getSupportFragmentManager();
+        if (fm.getBackStackEntryCount() > 0) {
+            fm.popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        }
+        fm.beginTransaction()
                 .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
                 .replace(R.id.fragment_container, fragment)
                 .commit();

@@ -19,6 +19,11 @@ import androidx.core.app.NotificationCompat;
 
 import com.example.R;
 import com.example.touchflow.activities.MainActivity;
+import com.example.touchflow.minimax.engine.AppCapabilityInspector;
+import com.example.touchflow.minimax.engine.MiniMaxAutomationEngine;
+import com.example.touchflow.minimax.models.MiniMaxConfig;
+import com.example.touchflow.minimax.overlay.MiniMaxFloatingController;
+import com.example.touchflow.minimax.preferences.MiniMaxPreferences;
 import com.example.touchflow.models.ActionItem;
 import com.example.touchflow.models.TouchFlowConfig;
 import com.example.touchflow.overlay.FloatingButtonController;
@@ -34,17 +39,20 @@ public class FloatingOverlayService extends Service {
     public static final String ACTION_STOP = "com.example.touchflow.ACTION_STOP";
     public static final String ACTION_OPEN_MENU = "com.example.touchflow.ACTION_OPEN_MENU";
     public static final String ACTION_OPEN_QUICK_PANEL = "com.example.touchflow.ACTION_OPEN_QUICK_PANEL";
+    public static final String ACTION_OPEN_MINIMAX = "com.example.touchflow.ACTION_OPEN_MINIMAX";
 
     private static final String CHANNEL_ID = "touchflow_overlay_channel";
     private static final int NOTIFICATION_ID = 1042;
     private static volatile boolean isRunning = false;
 
     private TouchFlowPreferences preferences;
+    private MiniMaxPreferences miniMaxPreferences;
     private SystemActionHelper systemActionHelper;
     private WindowManager windowManager;
     private FloatingButtonController buttonController;
     private FloatingMenuController menuController;
     private QuickAccessPanelController quickPanelController;
+    private MiniMaxFloatingController miniMaxController;
     private TouchFlowConfig currentConfig;
 
     private final SharedPreferences.OnSharedPreferenceChangeListener prefsListener =
@@ -57,6 +65,18 @@ public class FloatingOverlayService extends Service {
                 }
                 if (buttonController != null) {
                     buttonController.applyConfig(currentConfig);
+                }
+                if (miniMaxController != null && miniMaxController.isAttached()) {
+                    miniMaxController.applyTheme(currentConfig);
+                }
+            };
+
+    private final SharedPreferences.OnSharedPreferenceChangeListener miniMaxPrefsListener =
+            (sharedPreferences, key) -> {
+                if (miniMaxPreferences == null || miniMaxController == null) return;
+                MiniMaxConfig mmConfig = miniMaxPreferences.loadConfig();
+                if (!mmConfig.floatingAssistantEnabled && miniMaxController.isAttached()) {
+                    miniMaxController.remove();
                 }
             };
 
@@ -90,10 +110,21 @@ public class FloatingOverlayService extends Service {
         }
     }
 
+    public static void openMiniMaxDockFromApp(Context context) {
+        Intent intent = new Intent(context, FloatingOverlayService.class);
+        intent.setAction(ACTION_OPEN_MINIMAX);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            context.startForegroundService(intent);
+        } else {
+            context.startService(intent);
+        }
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
         preferences = new TouchFlowPreferences(this);
+        miniMaxPreferences = new MiniMaxPreferences(this);
         systemActionHelper = new SystemActionHelper(this);
         systemActionHelper.registerTorchListener(null);
         windowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
@@ -127,6 +158,12 @@ public class FloatingOverlayService extends Service {
                     public void onExecuteAction(ActionItem action) {
                         executeSystemAction(action);
                     }
+
+                    @Override
+                    public void onOpenMiniMax() {
+                        buttonController.setTemporarilyHidden(false);
+                        showMiniMaxDockFromEngineOrLast();
+                    }
                 }
         );
 
@@ -148,7 +185,29 @@ public class FloatingOverlayService extends Service {
                 }
         );
 
+        miniMaxController = new MiniMaxFloatingController(
+                this,
+                windowManager,
+                miniMaxPreferences,
+                systemActionHelper
+        );
+
+        MiniMaxAutomationEngine.getInstance(this).setDockEventListener(
+                (packageName, appLabel, statusDetail, wasFreeformLaunched) -> {
+                    if (!isRunning || miniMaxController == null || miniMaxPreferences == null) return;
+                    if (!PermissionHelper.canDrawOverlays(this)) return;
+                    MiniMaxConfig mmConfig = miniMaxPreferences.loadConfig();
+                    if (!mmConfig.floatingAssistantEnabled) return;
+                    currentConfig = preferences.loadConfig();
+                    String subtitle = wasFreeformLaunched
+                            ? "Mini Window Ready"
+                            : "Tap to Open Mini";
+                    miniMaxController.showOrUpdate(currentConfig, packageName, appLabel, subtitle);
+                }
+        );
+
         preferences.registerListener(prefsListener);
+        miniMaxPreferences.registerListener(miniMaxPrefsListener);
         createNotificationChannel();
         startInForeground();
         isRunning = true;
@@ -177,6 +236,8 @@ public class FloatingOverlayService extends Service {
             showMainMenu();
         } else if (ACTION_OPEN_QUICK_PANEL.equals(action)) {
             showQuickPanel();
+        } else if (ACTION_OPEN_MINIMAX.equals(action)) {
+            showMiniMaxDockFromEngineOrLast();
         }
 
         return START_STICKY;
@@ -188,19 +249,27 @@ public class FloatingOverlayService extends Service {
         if (buttonController != null) {
             buttonController.onConfigurationChanged();
         }
+        if (miniMaxController != null) {
+            miniMaxController.onConfigurationChanged();
+        }
     }
 
     @Override
     public void onDestroy() {
         isRunning = false;
+        MiniMaxAutomationEngine.getInstance(this).setDockEventListener(null);
         if (preferences != null) {
             preferences.unregisterListener(prefsListener);
+        }
+        if (miniMaxPreferences != null) {
+            miniMaxPreferences.unregisterListener(miniMaxPrefsListener);
         }
         if (systemActionHelper != null) {
             systemActionHelper.unregisterTorchListener();
         }
         if (menuController != null) menuController.removeImmediate();
         if (quickPanelController != null) quickPanelController.removeImmediate();
+        if (miniMaxController != null) miniMaxController.remove();
         if (buttonController != null) buttonController.remove();
         super.onDestroy();
     }
@@ -217,6 +286,8 @@ public class FloatingOverlayService extends Service {
             showMainMenu();
         } else if (action == ActionItem.QUICK_PANEL) {
             showQuickPanel();
+        } else if (action == ActionItem.MINIMAX_ASSISTANT) {
+            showMiniMaxDockFromEngineOrLast();
         } else {
             executeSystemAction(action);
         }
@@ -244,6 +315,22 @@ public class FloatingOverlayService extends Service {
         }
     }
 
+    private void showMiniMaxDockFromEngineOrLast() {
+        if (miniMaxController == null || !PermissionHelper.canDrawOverlays(this)) return;
+        if (menuController.isShowing()) {
+            menuController.dismiss(true);
+        }
+        if (quickPanelController.isShowing()) {
+            quickPanelController.dismiss(true);
+        }
+        currentConfig = preferences.loadConfig();
+        String lastPkg = MiniMaxAutomationEngine.getInstance(this).getLastActiveAppPackage();
+        String label = (lastPkg != null && !lastPkg.isEmpty())
+                ? AppCapabilityInspector.getAppLabel(this, lastPkg)
+                : getString(R.string.minimax_title);
+        miniMaxController.showOrUpdate(currentConfig, lastPkg, label, "Tap for Mini Window");
+    }
+
     private void executeSystemAction(ActionItem action) {
         systemActionHelper.executeAction(action, new SystemActionHelper.OverlayNavigationCallback() {
             @Override
@@ -265,13 +352,20 @@ public class FloatingOverlayService extends Service {
             public void onRequestOpenQuickPanel() {
                 showQuickPanel();
             }
+
+            @Override
+            public void onRequestOpenMiniMax() {
+                showMiniMaxDockFromEngineOrLast();
+            }
         });
     }
 
     private void stopOverlayAndSelf() {
         isRunning = false;
+        MiniMaxAutomationEngine.getInstance(this).setDockEventListener(null);
         if (menuController != null) menuController.removeImmediate();
         if (quickPanelController != null) quickPanelController.removeImmediate();
+        if (miniMaxController != null) miniMaxController.remove();
         if (buttonController != null) buttonController.remove();
         stopForeground(STOP_FOREGROUND_REMOVE);
         stopSelf();
