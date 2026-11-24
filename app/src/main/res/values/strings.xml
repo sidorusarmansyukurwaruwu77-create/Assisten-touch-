@@ -1,121 +1,287 @@
 <resources>
     <string name="app_name">TouchFlow</string>
     <string name="app_tagline">Assistive Touch</string>
-    <string name="about_title">About TouchFlow</string>
+    <string name="about_title">Tentang TouchFlow</string>
+
+    <!-- Language -->
+    <string name="lang_code_id">ID</string>
+    <string name="lang_code_en">EN</string>
+    <string name="lang_name_id">Bahasa Indonesia</string>
+    <string name="lang_name_en">English</string>
+    <string name="lang_section_title">Bahasa Aplikasi</string>
+    <string name="lang_section_subtitle">Pilih bahasa utama aplikasi dan menu melayang</string>
+    <string name="lang_switched_toast">Bahasa diubah ke Bahasa Indonesia</string>
+    <string name="cd_language_switch">Ganti bahasa aplikasi</string>
 
     <!-- Navigation -->
-    <string name="nav_dashboard">Home</string>
-    <string name="nav_appearance">Style</string>
-    <string name="nav_gestures">Gestures</string>
-    <string name="nav_shortcuts">Apps</string>
-    <string name="nav_permissions">Access</string>
+    <string name="nav_dashboard">Beranda</string>
+    <string name="nav_appearance">Tampilan</string>
+    <string name="nav_gestures">Gestur</string>
+    <string name="nav_shortcuts">Aplikasi</string>
+    <string name="nav_permissions">Izin</string>
 
     <!-- Accessibility -->
-    <string name="accessibility_service_label">TouchFlow Assistive Actions</string>
-    <string name="accessibility_service_description">Allows TouchFlow to perform system navigation actions (Home, Back, Recent Apps, Screenshot, Lock Screen, Notification Panel, Quick Settings, and Power Menu) when you tap buttons in the floating menu. TouchFlow never reads screen content or collects personal data.</string>
+    <string name="accessibility_service_label">Aksi Bantu TouchFlow</string>
+    <string name="accessibility_service_description">Memungkinkan TouchFlow menjalankan aksi navigasi sistem (Beranda, Kembali, Terbaru, Tangkapan Layar, Kunci Layar, Panel Notifikasi, Pengaturan Cepat, Menu Daya, Minimize, dan deteksi MiniMax) saat Anda menekan tombol melayang. TouchFlow tidak membaca isi layar atau mengumpulkan data pribadi.</string>
 
     <!-- Notification -->
-    <string name="notif_channel_name">TouchFlow Overlay Service</string>
-    <string name="notif_channel_desc">Keeps the TouchFlow floating assistive button responsive across apps</string>
-    <string name="notif_title">TouchFlow is active</string>
-    <string name="notif_text">Tap to configure floating button, gestures, and shortcuts</string>
-    <string name="notif_action_toggle_menu">Open Menu</string>
-    <string name="notif_action_stop">Turn Off</string>
+    <string name="notif_channel_name">Layanan Overlay TouchFlow</string>
+    <string name="notif_channel_desc">Menjaga tombol melayang TouchFlow tetap aktif di atas aplikasi lain</string>
+    <string name="notif_title">TouchFlow aktif</string>
+    <string name="notif_text">Ketuk untuk mengatur tombol melayang, gestur, MiniMax &amp; pintasan</string>
+    <string name="notif_action_toggle_menu">Buka Menu</string>
+    <string name="notif_action_stop">Matikan</string>
 
     <!-- Dashboard -->
-    <string name="dashboard_status_active">Floating Assistant Active</string>
-    <string name="dashboard_status_inactive">Floating Assistant Off</string>
-    <string name="dashboard_status_desc_active">Your TouchFlow orb is floating across apps and ready for gestures.</string>
-    <string name="dashboard_status_desc_inactive">Enable TouchFlow to show your customizable floating button over other apps.</string>
-    <string name="btn_enable_touchflow">Enable TouchFlow</string>
-    <string name="btn_disable_touchflow">Disable TouchFlow</string>
-    <string name="preview_label">LIVE BUTTON PREVIEW</string>
-    <string name="preview_hint">Reflects size, opacity, color &amp; icon live</string>
-    <string name="config_summary_title">Active Configuration</string>
-    <string name="permissions_health_title">Permission Readiness</string>
-    <string name="quick_tools_title">Quick Actions</string>
+    <string name="dashboard_status_active">Asisten Melayang Aktif</string>
+    <string name="dashboard_status_inactive">Asisten Melayang Mati</string>
+    <string name="dashboard_status_desc_active">Tombol TouchFlow melayang di semua aplikasi dan tetap aktif meski aplikasi ditutup.</string>
+    <string name="dashboard_status_desc_inactive">Aktifkan TouchFlow untuk menampilkan tombol bantu melayang di atas aplikasi lain.</string>
+    <string name="badge_active">AKTIF</string>
+    <string name="badge_standby">SIAGA</string>
+    <string name="btn_enable_touchflow">Aktifkan TouchFlow</string>
+    <string name="btn_disable_touchflow">Matikan TouchFlow</string>
+    <string name="preview_label">PRATINJAU TOMBOL LANGSUNG</string>
+    <string name="preview_hint">Menyesuaikan ukuran, opasitas, warna &amp; ikon</string>
+    <string name="config_summary_title">Konfigurasi Aktif</string>
+    <string name="permissions_health_title">Kesiapan Izin Sistem</string>
+    <string name="quick_tools_title">Aksi Cepat</string>
+    <string name="dash_perm_ready_format">%1$d / %2$d Siap</string>
+    <string name="dash_perm_granted">Diizinkan</string>
+    <string name="dash_perm_required">Diperlukan</string>
+    <string name="dash_perm_enabled">Aktif</string>
+    <string name="dash_perm_needed_nav">Perlu untuk Beranda/Kembali/Minimize</string>
+    <string name="dash_perm_allowed">Diizinkan</string>
+    <string name="dash_perm_recommended">Disarankan</string>
+    <string name="dash_perm_optional_settings">Opsional untuk Kecerahan/Rotasi</string>
+    <string name="dash_perm_detail_template">• Tampil di Atas Aplikasi: %1$s\n• Layanan Aksesibilitas: %2$s\n• Notifikasi: %3$s\n• Ubah Pengaturan Sistem: %4$s</string>
+    <string name="dash_config_summary_template">• Tombol: %1$d dp • Opasitas %2$d%% • %3$s\n• Tema &amp; Tata Letak: %4$s • %5$s\n• Ketuk 1x / 2x: %6$s / %7$s\n• Pintasan Aplikasi Favorit: %8$d / %9$d terpasang</string>
+    <string name="dash_torch_on">Senter NYALA</string>
+    <string name="msg_enable_touchflow_menu">Aktifkan TouchFlow terlebih dahulu untuk membuka menu melayang.</string>
+    <string name="msg_enable_touchflow_panel">Aktifkan TouchFlow terlebih dahulu untuk membuka Panel Cepat.</string>
+    <string name="msg_enable_touchflow_minimize">Aktifkan TouchFlow atau Aksesibilitas untuk meminimalkan aplikasi.</string>
 
     <!-- Actions -->
-    <string name="action_home">Home</string>
-    <string name="action_back">Back</string>
-    <string name="action_recents">Recent Apps</string>
+    <string name="action_home">Beranda</string>
+    <string name="action_back">Kembali</string>
+    <string name="action_recents">Terbaru</string>
     <string name="action_screenshot">Screenshot</string>
-    <string name="action_lock_screen">Lock Screen</string>
+    <string name="action_lock_screen">Kunci Layar</string>
     <string name="action_volume_up">Volume +</string>
     <string name="action_volume_down">Volume -</string>
-    <string name="action_brightness">Brightness</string>
+    <string name="action_brightness">Kecerahan</string>
     <string name="action_wifi">Wi-Fi</string>
     <string name="action_bluetooth">Bluetooth</string>
-    <string name="action_flashlight">Flashlight</string>
-    <string name="action_rotation">Rotation</string>
-    <string name="action_notifications">Notifications</string>
-    <string name="action_quick_settings">Quick Settings</string>
-    <string name="action_power_menu">Power Menu</string>
-    <string name="action_open_settings">Settings</string>
-    <string name="action_quick_panel">Quick Panel</string>
-    <string name="action_open_menu">Open Menu</string>
-    <string name="action_none">None</string>
+    <string name="action_flashlight">Senter</string>
+    <string name="action_rotation">Rotasi</string>
+    <string name="action_notifications">Notifikasi</string>
+    <string name="action_quick_settings">Setelan Cepat</string>
+    <string name="action_power_menu">Menu Daya</string>
+    <string name="action_open_settings">Setelan</string>
+    <string name="action_quick_panel">Panel Cepat</string>
+    <string name="action_open_menu">Buka Menu</string>
+    <string name="action_minimize">Minimize</string>
+    <string name="action_none">Tidak Ada</string>
 
     <!-- Feedback Messages -->
-    <string name="msg_overlay_permission_required">Please grant "Display over other apps" permission first.</string>
-    <string name="msg_accessibility_required">Enable TouchFlow in Accessibility Settings to use %1$s.</string>
-    <string name="msg_write_settings_required">Allow "Modify system settings" to change %1$s directly.</string>
-    <string name="msg_screenshot_api_unsupported">System screenshot requires Android 9 (API 28) or higher.</string>
-    <string name="msg_lock_api_unsupported">Lock Screen via Accessibility requires Android 9 (API 28) or higher.</string>
-    <string name="msg_flashlight_unavailable">Flashlight hardware is unavailable on this device.</string>
-    <string name="msg_rotation_toggled">Auto-rotate %1$s</string>
-    <string name="msg_max_shortcuts">Maximum 8 favorite app shortcuts allowed.</string>
-    <string name="msg_app_launch_failed">Unable to open selected application.</string>
+    <string name="msg_overlay_permission_required">Harap berikan izin "Tampilkan di atas aplikasi lain" terlebih dahulu.</string>
+    <string name="msg_accessibility_required">Aktifkan TouchFlow di Pengaturan Aksesibilitas untuk menggunakan %1$s.</string>
+    <string name="msg_write_settings_required">Izinkan "Ubah pengaturan sistem" untuk mengatur %1$s secara langsung.</string>
+    <string name="msg_screenshot_api_unsupported">Screenshot sistem memerlukan Android 9 (API 28) atau lebih baru.</string>
+    <string name="msg_lock_api_unsupported">Kunci Layar via Aksesibilitas memerlukan Android 9 (API 28) atau lebih baru.</string>
+    <string name="msg_flashlight_unavailable">Perangkat keras senter tidak tersedia di perangkat ini.</string>
+    <string name="msg_rotation_toggled">Rotasi otomatis %1$s</string>
+    <string name="msg_max_shortcuts">Maksimal 8 pintasan aplikasi favorit diperbolehkan.</string>
+    <string name="msg_app_launch_failed">Tidak dapat membuka aplikasi yang dipilih.</string>
+    <string name="msg_minimized_to_dock">%1$s diminimalkan ke dock melayang</string>
+    <string name="msg_minimized_home">Diminimalkan ke layar utama</string>
 
     <!-- Quick Access Panel -->
-    <string name="quick_panel_title">Quick Access</string>
-    <string name="quick_panel_volume">Media Volume</string>
-    <string name="quick_panel_brightness">Brightness</string>
-    <string name="quick_panel_favorites">Favorite Apps</string>
-    <string name="quick_panel_no_favorites">No favorite apps added yet. Add up to 8 in TouchFlow → Apps.</string>
+    <string name="quick_panel_title">Akses Cepat</string>
+    <string name="quick_panel_volume">Volume Media</string>
+    <string name="quick_panel_brightness">Kecerahan</string>
+    <string name="quick_panel_favorites">Aplikasi Favorit</string>
+    <string name="quick_panel_no_favorites">Belum ada aplikasi favorit. Tambahkan hingga 8 di TouchFlow → Aplikasi.</string>
+    <string name="status_connected">Terhubung</string>
+    <string name="status_on">Aktif</string>
+    <string name="status_off">Mati</string>
+    <string name="status_tap_view">Ketuk untuk lihat</string>
+    <string name="status_unavailable">Tidak tersedia</string>
+    <string name="status_settings">Setelan</string>
 
     <!-- Appearance -->
-    <string name="appearance_title">Appearance</string>
-    <string name="appearance_subtitle">Customize floating orb geometry, glow, theme, and menu style</string>
-    <string name="appearance_button_section">Floating Button</string>
-    <string name="appearance_theme_section">Overlay Theme</string>
-    <string name="appearance_layout_section">Menu Layout</string>
+    <string name="appearance_title">Tampilan</string>
+    <string name="appearance_subtitle">Atur ukuran, transparansi, warna, tema overlay, dan tata letak menu</string>
+    <string name="appearance_button_section">Tombol Melayang</string>
+    <string name="appearance_size_label">Ukuran Tombol (35–80 dp)</string>
+    <string name="appearance_opacity_label">Opasitas (10–100%)</string>
+    <string name="appearance_shadow_label">Intensitas Bayangan</string>
+    <string name="appearance_anim_speed_label">Kecepatan Animasi</string>
+    <string name="speed_smooth">Halus</string>
+    <string name="speed_balanced">Seimbang</string>
+    <string name="speed_snappy">Cepat</string>
+    <string name="appearance_button_icon_label">Ikon Tombol</string>
+    <string name="appearance_button_color_label">Warna Tombol</string>
+    <string name="appearance_icon_color_label">Warna Ikon</string>
+    <string name="appearance_theme_section">Tema Overlay</string>
+    <string name="appearance_custom_accent_label">Aksen Tema Kustom</string>
+    <string name="appearance_layout_section">Tata Letak Menu</string>
+    <string name="theme_dark">Mode Gelap</string>
+    <string name="theme_light">Mode Terang</string>
+    <string name="theme_amoled">Hitam AMOLED</string>
+    <string name="theme_glass">Kaca Transparan</string>
+    <string name="theme_gradient">Tema Gradien</string>
+    <string name="theme_custom">Tema Kustom</string>
+    <string name="layout_circular">Menu Melingkar</string>
+    <string name="layout_grid">Menu Kotak</string>
+    <string name="layout_rectangle">Persegi Melayang</string>
+    <string name="layout_compact">Menu Ringkas</string>
 
     <!-- Gestures -->
-    <string name="gestures_title">Gestures &amp; Feedback</string>
-    <string name="gestures_subtitle">Map taps, long press, and swipes on the floating button</string>
+    <string name="gestures_title">Gestur &amp; Umpan Balik</string>
+    <string name="gestures_subtitle">Atur ketuk sekali, ketuk dua kali, tekan lama, dan geser pada tombol melayang</string>
+    <string name="gestures_touch_actions_title">Aksi Sentuhan</string>
+    <string name="gesture_single_tap">Ketuk Sekali</string>
+    <string name="gesture_single_tap_desc">Ketukan utama pada tombol melayang</string>
+    <string name="gesture_double_tap">Ketuk Dua Kali</string>
+    <string name="gesture_double_tap_desc">Pintasan cepat dua ketukan</string>
+    <string name="gesture_long_press">Tekan Lama</string>
+    <string name="gesture_long_press_desc">Tahan tombol melayang sebentar</string>
+    <string name="gesture_swipe">Gestur Geser</string>
+    <string name="gesture_swipe_desc">Usap cepat vertikal pada tombol</string>
+    <string name="gestures_behavior_title">Perilaku &amp; Haptik</string>
+    <string name="gesture_haptic">Getaran Haptik</string>
+    <string name="gesture_haptic_desc">Getaran halus saat menekan tombol &amp; menu</string>
+    <string name="gesture_edge_snap">Tempel ke Tepi Layar</string>
+    <string name="gesture_edge_snap_desc">Otomatis menempel ke sisi terdekat setelah digeser</string>
+    <string name="gesture_idle_dim">Redup Otomatis Saat Diam</string>
+    <string name="gesture_idle_dim_desc">Memudarkan tombol secara halus setelah 3 detik diam</string>
 
     <!-- Shortcuts -->
-    <string name="shortcuts_title">App Shortcuts</string>
-    <string name="shortcuts_subtitle">Pin up to 8 favorite apps directly inside your floating menu</string>
-    <string name="btn_add_shortcut">Add App Shortcut</string>
-    <string name="shortcuts_empty_title">No App Shortcuts Yet</string>
-    <string name="shortcuts_empty_desc">Tap "Add App Shortcut" to pick up to 8 installed apps for instant launch from TouchFlow.</string>
+    <string name="shortcuts_title">Pintasan Aplikasi</string>
+    <string name="shortcuts_subtitle">Sematkan hingga 8 aplikasi favorit langsung ke menu melayang Anda</string>
+    <string name="btn_add_shortcut">Tambah Pintasan Aplikasi</string>
+    <string name="shortcuts_empty_title">Belum Ada Pintasan</string>
+    <string name="shortcuts_empty_desc">Ketuk "Tambah Pintasan Aplikasi" untuk memilih hingga 8 aplikasi agar bisa dibuka cepat dari TouchFlow.</string>
+    <string name="search_apps_hint">Cari aplikasi terpasang...</string>
 
     <!-- Permissions -->
-    <string name="permissions_title">System Access</string>
-    <string name="permissions_subtitle">TouchFlow uses only official Android APIs and requests permissions transparently</string>
+    <string name="permissions_title">Akses Sistem</string>
+    <string name="permissions_subtitle">TouchFlow hanya menggunakan API resmi Android dan meminta izin secara transparan</string>
+    <string name="perm_overlay_title">Tampilkan di Atas Aplikasi Lain</string>
+    <string name="perm_overlay_desc">Wajib agar tombol melayang TouchFlow, menu, dan dock MiniMax/Minimize tetap tampil di atas aplikasi lain.</string>
+    <string name="perm_overlay_btn_open">Buka Setelan Overlay</string>
+    <string name="perm_overlay_btn_grant">Berikan Izin Overlay</string>
+    <string name="perm_access_title">Layanan Aksesibilitas</string>
+    <string name="perm_access_desc">Mengaktifkan Beranda, Kembali, Terbaru, Screenshot, Kunci Layar, Minimize, serta deteksi aplikasi untuk MiniMax.</string>
+    <string name="perm_access_btn_open">Setelan Aksesibilitas</string>
+    <string name="perm_access_btn_grant">Aktifkan Aksesibilitas</string>
+    <string name="perm_notif_title">Izin Notifikasi</string>
+    <string name="perm_notif_desc">Menampilkan notifikasi layanan latar depan agar tombol melayang tetap responsif meski aplikasi utama ditutup.</string>
+    <string name="perm_notif_btn_open">Setelan Notifikasi</string>
+    <string name="perm_notif_btn_grant">Izinkan Notifikasi</string>
+    <string name="perm_write_title">Ubah Pengaturan Sistem</string>
+    <string name="perm_write_desc">Izin opsional agar TouchFlow dapat mengatur Kecerahan Layar dan Rotasi Otomatis secara langsung.</string>
+    <string name="perm_write_btn">Buka Ubah Pengaturan</string>
+    <string name="perm_bt_title">Akses Status Bluetooth</string>
+    <string name="perm_bt_desc">Izin opsional untuk menampilkan status Nyala/Mati Bluetooth langsung di Panel Akses Cepat.</string>
+    <string name="perm_bt_btn_ok">Bluetooth Diizinkan</string>
+    <string name="perm_bt_btn_grant">Izinkan Status Bluetooth</string>
+    <string name="perm_battery_title">Tetap Aktif Saat Aplikasi Ditutup</string>
+    <string name="perm_battery_desc">Jika HP (seperti TECNO HiOS, Xiaomi, OPPO) menutup tombol saat aplikasi dihapus dari Recent Apps, atur penghemat baterai TouchFlow ke "Tanpa Pembatasan".</string>
+    <string name="perm_battery_btn">Buka Optimasi Baterai</string>
+    <string name="perm_battery_unrestricted">Tanpa Pembatasan</string>
+    <string name="perm_battery_optimized">Teroptimasi</string>
+    <string name="perm_fgs_title">Layanan Overlay Latar Depan</string>
+    <string name="perm_fgs_desc">Berjalan terus dengan tipe specialUse selama TouchFlow diaktifkan, termasuk setelah aplikasi utama ditutup penuh.</string>
+    <string name="badge_granted">Diizinkan</string>
+    <string name="badge_required">Wajib</string>
+    <string name="badge_enabled">Aktif</string>
+    <string name="badge_required_nav">Perlu Navigasi</string>
+    <string name="badge_allowed">Diizinkan</string>
+    <string name="badge_recommended">Disarankan</string>
+    <string name="badge_optional">Opsional</string>
+    <string name="badge_running">Berjalan</string>
+
+    <!-- Common buttons -->
+    <string name="btn_save">Simpan</string>
+    <string name="btn_cancel">Batal</string>
+    <string name="btn_close">Tutup</string>
 
     <!-- About -->
-    <string name="about_version_label">Version 1.1.0</string>
-    <string name="about_dev_info">Crafted with native Android APIs (WindowManager, AccessibilityService, Foreground Service, DynamicAnimation, and Material Design 3).</string>
-    <string name="about_privacy_title">Privacy &amp; Transparency Policy</string>
-    <string name="about_privacy_body">TouchFlow operates 100% locally on your device.\n\n• Zero Data Collection: TouchFlow does not collect, store, transmit, or share personal data, keystrokes, screen contents, or usage analytics.\n\n• Accessibility Service Usage: Used exclusively to execute user-initiated global actions (Home, Back, Recent Apps, Screenshot, Lock Screen, Notifications, Quick Settings, Power Dialog). Window content retrieval is disabled.\n\n• Overlay &amp; Foreground Service: Used only while TouchFlow is enabled to keep the floating assistant button visible and responsive.\n\n• Package Queries: Used only to let you pick up to 8 installed launcher apps for your personal shortcut list.</string>
+    <string name="about_version_label">Versi 1.2.0</string>
+    <string name="about_dev_info">Dibangun dengan API resmi Android (WindowManager, AccessibilityService, Foreground Service, DynamicAnimation, dan Material Design 3).</string>
+    <string name="about_privacy_title">Kebijakan Privasi &amp; Transparansi</string>
+    <string name="about_privacy_body">TouchFlow berjalan 100% secara lokal di perangkat Anda.\n\n• Tanpa Pengumpulan Data: TouchFlow tidak mengumpulkan, menyimpan, mengirim, atau membagikan data pribadi, ketikan, isi layar, maupun analitik.\n\n• Penggunaan Layanan Aksesibilitas: Hanya dipakai untuk aksi navigasi global (Beranda, Kembali, Terbaru, Screenshot, Kunci Layar, Minimize, Notifikasi, Setelan Cepat, Menu Daya) serta mendeteksi nama paket aplikasi aktif untuk MiniMax. Pembacaan isi jendela dimatikan.\n\n• Layanan Overlay &amp; Latar Depan: Digunakan selama TouchFlow aktif agar tombol melayang tetap tampil meski aplikasi utama ditutup.\n\n• Kueri Aplikasi: Hanya dipakai untuk memilih pintasan favorit dan daftar aplikasi MiniMax.</string>
 
     <!-- Content descriptions -->
-    <string name="cd_about_button">Open About and Privacy Info</string>
-    <string name="cd_open_minimax">Open MiniMax Assistant</string>
-    <string name="cd_floating_button">TouchFlow floating assistive button</string>
-    <string name="cd_move_up">Move shortcut up</string>
-    <string name="cd_move_down">Move shortcut down</string>
-    <string name="cd_remove_shortcut">Remove shortcut</string>
-    <string name="cd_close_menu">Close floating menu</string>
-    <string name="cd_back_to_menu">Back to assistive menu</string>
+    <string name="cd_about_button">Buka Info dan Privasi</string>
+    <string name="cd_open_minimax">Buka MiniMax Assistant</string>
+    <string name="cd_floating_button">Tombol bantu melayang TouchFlow</string>
+    <string name="cd_move_up">Geser pintasan ke atas</string>
+    <string name="cd_move_down">Geser pintasan ke bawah</string>
+    <string name="cd_remove_shortcut">Hapus pintasan</string>
+    <string name="cd_close_menu">Tutup menu melayang</string>
+    <string name="cd_back_to_menu">Kembali ke menu bantu</string>
+    <string name="cd_minimize_dock">Minimalkan atau perluas dock melayang</string>
 
-    <!-- MiniMax Assistant -->
+    <!-- MiniMax & Minimize -->
     <string name="minimax_title">MiniMax Assistant</string>
-    <string name="minimax_subtitle">Auto Mini Window &amp; OEM Floating Engine</string>
+    <string name="minimax_subtitle">Jendela Mini Otomatis &amp; Mesin Floating OEM</string>
     <string name="action_minimax">MiniMax</string>
-    <string name="dash_minimax_title">MiniMax Assistant</string>
-    <string name="dash_minimax_open">Open MiniMax</string>
+    <string name="dash_minimax_title">MiniMax &amp; Minimize</string>
+    <string name="dash_minimax_open">Buka MiniMax</string>
+    <string name="minimax_setup_needed_title">Perlu Pengaturan untuk Deteksi Otomatis</string>
+    <string name="minimax_open_access_btn">Buka Izin TouchFlow</string>
+    <string name="minimax_controls_title">Kontrol Otomatisasi &amp; Minimize</string>
+    <string name="minimax_auto_mini">Auto Mini</string>
+    <string name="minimax_auto_mini_desc">Otomatis jalankan MiniMax saat keluar dari aplikasi aktif</string>
+    <string name="minimax_floating_assistant">Asisten Melayang</string>
+    <string name="minimax_floating_assistant_desc">Tampilkan Dock Cepat MiniMax &amp; fallback overlay OEM</string>
+    <string name="minimax_auto_home">Auto Mini saat Beranda</string>
+    <string name="minimax_auto_home_desc">Deteksi aplikasi terakhir saat menekan tombol Beranda</string>
+    <string name="minimax_auto_switch">Auto Mini saat Pindah Aplikasi</string>
+    <string name="minimax_auto_switch_desc">Aktif saat berpindah antar aplikasi aktif</string>
+    <string name="minimax_minimize_now_btn">Minimize Sekarang</string>
+    <string name="minimax_app_rules_title">Aturan Aplikasi</string>
+    <string name="minimax_only_supported">Hanya Daftar Aplikasi Didukung</string>
+    <string name="minimax_only_supported_desc">Mati = semua aplikasi kecuali daftar Dikecualikan</string>
+    <string name="minimax_supported_apps">Aplikasi Didukung</string>
+    <string name="minimax_supported_apps_desc">Facebook, YouTube, WhatsApp &amp; pilihan Anda</string>
+    <string name="minimax_excluded_apps">Aplikasi Dikecualikan</string>
+    <string name="minimax_excluded_apps_desc">Aplikasi yang dilewati otomatisasi MiniMax</string>
+    <string name="minimax_apps_count_format">%1$d aplikasi</string>
+    <string name="minimax_geometry_title">Geometri Jendela Mini</string>
+    <string name="minimax_window_position">Posisi Jendela</string>
+    <string name="minimax_window_size">Ukuran Jendela</string>
+    <string name="minimax_pos_top_left">Kiri Atas</string>
+    <string name="minimax_pos_top_right">Kanan Atas</string>
+    <string name="minimax_pos_center">Tengah</string>
+    <string name="minimax_pos_bottom_left">Kiri Bawah</string>
+    <string name="minimax_pos_bottom_right">Kanan Bawah</string>
+    <string name="minimax_size_compact">Ringkas (55%)</string>
+    <string name="minimax_size_balanced">Seimbang (70%)</string>
+    <string name="minimax_size_large">Besar (85%)</string>
+    <string name="minimax_compat_title">Mesin Kompatibilitas Perangkat</string>
+    <string name="minimax_compat_guide_btn">Panduan OEM &amp; Freeform</string>
+    <string name="minimax_history_title">Riwayat Otomatisasi</string>
+    <string name="minimax_test_last_app">Uji App Terakhir</string>
+    <string name="minimax_clear_history">Hapus</string>
+    <string name="minimax_last_app_none">Aplikasi terakhir terdeteksi: Belum ada</string>
+    <string name="minimax_last_app_format">Aplikasi terakhir: %1$s (%2$s)</string>
+    <string name="minimax_history_empty">Belum ada riwayat. Buka aplikasi (misalnya Facebook) lalu tekan Beranda atau Minimize saat fitur aktif.</string>
+    <string name="minimax_dock_ready">MiniMax Siap</string>
+    <string name="minimax_dock_tap_mini">Ketuk untuk Jendela Mini</string>
+    <string name="minimax_dock_open_app_hint">Buka aplikasi untuk melacak</string>
+    <string name="minimax_dock_minimized_chip">Minimize</string>
+    <string name="minimax_trigger_home">Tombol Beranda</string>
+    <string name="minimax_trigger_switch">Pindah Aplikasi</string>
+    <string name="minimax_trigger_manual">Dock MiniMax</string>
+    <string name="minimax_trigger_minimize">Minimize</string>
+    <string name="minimax_status_freeform">Freeform</string>
+    <string name="minimax_status_fallback">Dock Fallback</string>
+    <string name="minimax_dev_settings_btn">Opsi Pengembang</string>
+    <string name="minimax_need_access_toast">Aktifkan Layanan Aksesibilitas TouchFlow di tab Izin untuk mendeteksi Beranda &amp; pindah aplikasi.</string>
+    <string name="minimax_perm_overlay_missing">• Izin "Tampilkan di Atas Aplikasi Lain" diperlukan untuk Dock Melayang MiniMax/Minimize.</string>
+    <string name="minimax_perm_access_missing">• Layanan Aksesibilitas TouchFlow diperlukan untuk mendeteksi tombol Beranda atau pindah dari aplikasi seperti Facebook.</string>
 </resources>

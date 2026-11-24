@@ -54,25 +54,25 @@ public class GesturesFragment extends Fragment {
         switchIdleDim = view.findViewById(R.id.switch_idle_dim);
 
         view.findViewById(R.id.row_single_tap).setOnClickListener(v ->
-                showActionPicker("Single Tap Action", preferences.loadConfig().singleTapAction, chosen -> {
+                showActionPicker(getString(R.string.gesture_single_tap), preferences.loadConfig().singleTapAction, chosen -> {
                     preferences.setSingleTapAction(chosen);
                     refreshValues();
                 }));
 
         view.findViewById(R.id.row_double_tap).setOnClickListener(v ->
-                showActionPicker("Double Tap Action", preferences.loadConfig().doubleTapAction, chosen -> {
+                showActionPicker(getString(R.string.gesture_double_tap), preferences.loadConfig().doubleTapAction, chosen -> {
                     preferences.setDoubleTapAction(chosen);
                     refreshValues();
                 }));
 
         view.findViewById(R.id.row_long_press).setOnClickListener(v ->
-                showActionPicker("Long Press Action", preferences.loadConfig().longPressAction, chosen -> {
+                showActionPicker(getString(R.string.gesture_long_press), preferences.loadConfig().longPressAction, chosen -> {
                     preferences.setLongPressAction(chosen);
                     refreshValues();
                 }));
 
         view.findViewById(R.id.row_swipe_gesture).setOnClickListener(v ->
-                showActionPicker("Swipe Gesture Action", preferences.loadConfig().swipeAction, chosen -> {
+                showActionPicker(getString(R.string.gesture_swipe), preferences.loadConfig().swipeAction, chosen -> {
                     preferences.setSwipeAction(chosen);
                     refreshValues();
                 }));
@@ -121,7 +121,7 @@ public class GesturesFragment extends Fragment {
                     callback.onPicked(actions.get(which));
                     dialog.dismiss();
                 })
-                .setNegativeButton("Cancel", null)
+                .setNegativeButton(R.string.btn_cancel, null)
                 .show();
     }
 }

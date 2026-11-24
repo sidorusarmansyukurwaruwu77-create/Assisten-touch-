@@ -24,7 +24,7 @@
         android:layout_marginTop="12dp"
         android:background="@drawable/bg_action_tile"
         android:fontFamily="@font/inter"
-        android:hint="Search installed apps..."
+        android:hint="@string/search_apps_hint"
         android:importantForAutofill="no"
         android:inputType="text"
         android:paddingHorizontal="14dp"

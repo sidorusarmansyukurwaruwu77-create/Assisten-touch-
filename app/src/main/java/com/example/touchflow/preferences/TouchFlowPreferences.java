@@ -46,12 +46,14 @@ public class TouchFlowPreferences {
     public static final String KEY_POS_X_RATIO = "pos_x_ratio";
     public static final String KEY_POS_Y_RATIO = "pos_y_ratio";
     public static final String KEY_SHORTCUTS_JSON = "shortcuts_json";
+    public static final String KEY_APP_LANGUAGE = "app_language";
 
     private final SharedPreferences prefs;
 
     public TouchFlowPreferences(Context context) {
-        this.prefs = context.getApplicationContext()
-                .getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        Context appCtx = context.getApplicationContext();
+        Context safeCtx = appCtx != null ? appCtx : context;
+        this.prefs = safeCtx.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
     }
 
     public SharedPreferences getRawPreferences() {
@@ -64,6 +66,16 @@ public class TouchFlowPreferences {
 
     public void unregisterListener(SharedPreferences.OnSharedPreferenceChangeListener listener) {
         prefs.unregisterOnSharedPreferenceChangeListener(listener);
+    }
+
+    public String getAppLanguage() {
+        String lang = prefs.getString(KEY_APP_LANGUAGE, "id");
+        return "en".equals(lang) ? "en" : "id";
+    }
+
+    public void setAppLanguage(String langCode) {
+        String normalized = "en".equals(langCode) ? "en" : "id";
+        prefs.edit().putString(KEY_APP_LANGUAGE, normalized).commit();
     }
 
     public TouchFlowConfig loadConfig() {
@@ -104,7 +116,7 @@ public class TouchFlowPreferences {
     }
 
     public void setServiceEnabled(boolean enabled) {
-        prefs.edit().putBoolean(KEY_SERVICE_ENABLED, enabled).apply();
+        prefs.edit().putBoolean(KEY_SERVICE_ENABLED, enabled).commit();
     }
 
     public boolean isServiceEnabled() {

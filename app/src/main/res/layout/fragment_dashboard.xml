@@ -41,7 +41,7 @@
                         android:fontFamily="@font/inter"
                         android:paddingHorizontal="10dp"
                         android:paddingVertical="4dp"
-                        android:text="STANDBY"
+                        android:text="@string/badge_standby"
                         android:textColor="@color/tf_text_secondary"
                         android:textSize="11sp"
                         android:textStyle="bold" />
@@ -123,7 +123,7 @@
                 app:cornerRadius="16dp" />
         </LinearLayout>
 
-        <!-- Quick Tools -->
+        <!-- Quick Tools (2x2 Grid) -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -182,7 +182,7 @@
                 style="@style/TouchFlow.Card"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="4dp"
+                android:layout_marginStart="6dp"
                 android:layout_weight="1"
                 android:clickable="true"
                 android:focusable="true">
@@ -208,6 +208,50 @@
                         android:layout_marginTop="8dp"
                         android:fontFamily="@font/inter"
                         android:text="@string/action_quick_panel"
+                        android:textColor="@color/tf_text_primary"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/card_quick_minimize"
+                style="@style/TouchFlow.Card"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="6dp"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:focusable="true">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:minHeight="84dp"
+                    android:orientation="vertical"
+                    android:padding="12dp">
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:contentDescription="@null"
+                        android:src="@drawable/ic_minimize"
+                        app:tint="@color/tf_secondary" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:fontFamily="@font/inter"
+                        android:text="@string/action_minimize"
                         android:textColor="@color/tf_text_primary"
                         android:textSize="12sp"
                         android:textStyle="bold" />
@@ -254,13 +298,99 @@
             </com.google.android.material.card.MaterialCardView>
         </LinearLayout>
 
+        <!-- Language Selector Card -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card_dash_language"
+            style="@style/TouchFlow.Card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="18dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:contentDescription="@null"
+                        android:src="@drawable/ic_language"
+                        app:tint="@color/tf_primary" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:fontFamily="@font/space_grotesk"
+                        android:text="@string/lang_section_title"
+                        android:textColor="@color/tf_text_primary"
+                        android:textSize="15.5sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:fontFamily="@font/inter"
+                    android:text="@string/lang_section_subtitle"
+                    android:textColor="@color/tf_text_secondary"
+                    android:textSize="12.5sp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/chip_lang_id"
+                        android:layout_width="0dp"
+                        android:layout_height="48dp"
+                        android:layout_marginEnd="6dp"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/inter"
+                        android:text="@string/lang_name_id"
+                        android:textAllCaps="false"
+                        android:textColor="@color/tf_text_primary"
+                        android:textSize="13sp"
+                        android:textStyle="bold"
+                        app:backgroundTint="@color/tf_primary"
+                        app:cornerRadius="12dp" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/chip_lang_en"
+                        android:layout_width="0dp"
+                        android:layout_height="48dp"
+                        android:layout_marginStart="6dp"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/inter"
+                        android:text="@string/lang_name_en"
+                        android:textAllCaps="false"
+                        android:textColor="@color/tf_text_secondary"
+                        android:textSize="13sp"
+                        android:textStyle="bold"
+                        app:backgroundTint="@color/tf_surface_elevated"
+                        app:cornerRadius="12dp" />
+                </LinearLayout>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
         <!-- Permissions Readiness Card -->
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/card_dash_permissions"
             style="@style/TouchFlow.Card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="14dp"
             android:clickable="true"
             android:focusable="true">
 

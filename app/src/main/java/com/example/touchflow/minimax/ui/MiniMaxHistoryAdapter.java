@@ -52,7 +52,9 @@ public class MiniMaxHistoryAdapter extends RecyclerView.Adapter<MiniMaxHistoryAd
                 + " • " + entry.triggerLabel + " • " + entry.mechanism);
         holder.tvDetail.setText(entry.detail);
 
-        holder.tvStatus.setText(entry.success ? "Freeform" : "Fallback");
+        holder.tvStatus.setText(entry.success
+                ? context.getString(R.string.minimax_status_freeform)
+                : context.getString(R.string.minimax_status_fallback));
         holder.tvStatus.setTextColor(ContextCompat.getColor(
                 context,
                 entry.success ? R.color.tf_success : R.color.tf_warning

@@ -44,7 +44,7 @@
                 android:fontFamily="@font/inter"
                 android:paddingHorizontal="10dp"
                 android:paddingVertical="4dp"
-                android:text="Granted"
+                android:text="@string/badge_granted"
                 android:textSize="11sp"
                 android:textStyle="bold" />
         </LinearLayout>
@@ -66,7 +66,7 @@
             android:layout_height="48dp"
             android:layout_marginTop="10dp"
             android:fontFamily="@font/inter"
-            android:text="Open Settings"
+            android:text="@string/status_settings"
             android:textAllCaps="false"
             android:textColor="@color/tf_text_primary"
             android:textSize="13sp"

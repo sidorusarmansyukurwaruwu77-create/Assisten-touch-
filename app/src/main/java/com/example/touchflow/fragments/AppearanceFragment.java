@@ -373,7 +373,8 @@ public class AppearanceFragment extends Fragment {
         OverlayThemeApplier.applyFloatingOrbStyle(requireContext(), previewOrb, config);
         previewOrb.setAlpha(config.opacityPercent / 100f);
 
-        tvPreviewMeta.setText(config.buttonSizeDp + " dp • " + config.opacityPercent + "% Opacity");
-        tvPreviewThemeMeta.setText(config.overlayTheme.getDisplayName() + " • " + config.menuLayout.getDisplayName());
+        tvPreviewMeta.setText(config.buttonSizeDp + " dp • " + config.opacityPercent + "%");
+        tvPreviewThemeMeta.setText(config.overlayTheme.getDisplayName(requireContext())
+                + " • " + config.menuLayout.getDisplayName(requireContext()));
     }
 }

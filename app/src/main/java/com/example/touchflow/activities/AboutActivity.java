@@ -1,5 +1,6 @@
 package com.example.touchflow.activities;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
@@ -11,10 +12,15 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import com.example.BuildConfig;
 import com.example.R;
+import com.example.touchflow.utilities.LocaleHelper;
 
 public class AboutActivity extends AppCompatActivity {
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(LocaleHelper.wrap(newBase));
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +39,6 @@ public class AboutActivity extends AppCompatActivity {
         btnBack.setOnClickListener(v -> finish());
 
         TextView tvVersion = findViewById(R.id.tv_about_version);
-        tvVersion.setText("Version " + BuildConfig.VERSION_NAME);
+        tvVersion.setText(R.string.about_version_label);
     }
 }

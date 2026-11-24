@@ -58,33 +58,33 @@ public class PermissionsFragment extends Fragment {
         // 1. Display over other apps
         boolean overlayGranted = PermissionHelper.canDrawOverlays(requireContext());
         addPermissionCard(
-                "Display Over Other Apps",
-                "Required to float the TouchFlow orb, menu, and Quick Access Panel above any app.",
+                getString(R.string.perm_overlay_title),
+                getString(R.string.perm_overlay_desc),
                 overlayGranted,
-                overlayGranted ? "Granted" : "Required",
-                overlayGranted ? "Open Overlay Settings" : "Grant Overlay Permission",
+                getString(overlayGranted ? R.string.badge_granted : R.string.badge_required),
+                getString(overlayGranted ? R.string.perm_overlay_btn_open : R.string.perm_overlay_btn_grant),
                 v -> startActivity(PermissionHelper.buildOverlayPermissionIntent(requireContext()))
         );
 
         // 2. Accessibility Service
         boolean accessGranted = PermissionHelper.isAccessibilityEnabled(requireContext());
         addPermissionCard(
-                "Accessibility Service",
-                "Enables Home, Back, Recent Apps, Screenshot, Lock Screen, Notifications, Quick Settings, and Power Menu using official Android global actions.",
+                getString(R.string.perm_access_title),
+                getString(R.string.perm_access_desc),
                 accessGranted,
-                accessGranted ? "Enabled" : "Required for Nav",
-                accessGranted ? "Accessibility Settings" : "Enable Accessibility Service",
+                getString(accessGranted ? R.string.badge_enabled : R.string.badge_required_nav),
+                getString(accessGranted ? R.string.perm_access_btn_open : R.string.perm_access_btn_grant),
                 v -> startActivity(PermissionHelper.buildAccessibilitySettingsIntent())
         );
 
         // 3. Notifications (Android 13+)
         boolean notifGranted = PermissionHelper.hasNotificationPermission(requireContext());
         addPermissionCard(
-                "Notification Permission",
-                "Displays the low-priority Foreground Service status notification so Android keeps TouchFlow responsive.",
+                getString(R.string.perm_notif_title),
+                getString(R.string.perm_notif_desc),
                 notifGranted,
-                notifGranted ? "Allowed" : "Recommended",
-                notifGranted ? "Notification Settings" : "Allow Notifications",
+                getString(notifGranted ? R.string.badge_allowed : R.string.badge_recommended),
+                getString(notifGranted ? R.string.perm_notif_btn_open : R.string.perm_notif_btn_grant),
                 v -> {
                     if (!notifGranted && Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                         runtimePermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS);
@@ -97,11 +97,11 @@ public class PermissionsFragment extends Fragment {
         // 4. Modify System Settings
         boolean writeGranted = PermissionHelper.canWriteSettings(requireContext());
         addPermissionCard(
-                "Modify System Settings",
-                "Optional permission allowing TouchFlow to adjust Screen Brightness and Auto-Rotation directly.",
+                getString(R.string.perm_write_title),
+                getString(R.string.perm_write_desc),
                 writeGranted,
-                writeGranted ? "Allowed" : "Optional",
-                "Open Modify Settings",
+                getString(writeGranted ? R.string.badge_allowed : R.string.badge_optional),
+                getString(R.string.perm_write_btn),
                 v -> startActivity(PermissionHelper.buildWriteSettingsIntent(requireContext()))
         );
 
@@ -109,11 +109,11 @@ public class PermissionsFragment extends Fragment {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             boolean btGranted = PermissionHelper.hasBluetoothConnectPermission(requireContext());
             addPermissionCard(
-                    "Bluetooth Status Access",
-                    "Optional permission to display live Bluetooth On/Off state inside the Quick Access Panel.",
+                    getString(R.string.perm_bt_title),
+                    getString(R.string.perm_bt_desc),
                     btGranted,
-                    btGranted ? "Allowed" : "Optional",
-                    btGranted ? "Bluetooth Granted" : "Allow Bluetooth Status",
+                    getString(btGranted ? R.string.badge_allowed : R.string.badge_optional),
+                    getString(btGranted ? R.string.perm_bt_btn_ok : R.string.perm_bt_btn_grant),
                     v -> {
                         if (!btGranted) {
                             runtimePermissionLauncher.launch(Manifest.permission.BLUETOOTH_CONNECT);
@@ -122,13 +122,24 @@ public class PermissionsFragment extends Fragment {
             );
         }
 
-        // 6. Foreground Service State
+        // 6. Battery Optimization / Keep Active When App Closed
+        boolean batteryUnrestricted = PermissionHelper.isIgnoringBatteryOptimizations(requireContext());
+        addPermissionCard(
+                getString(R.string.perm_battery_title),
+                getString(R.string.perm_battery_desc),
+                batteryUnrestricted,
+                getString(batteryUnrestricted ? R.string.perm_battery_unrestricted : R.string.perm_battery_optimized),
+                getString(R.string.perm_battery_btn),
+                v -> startActivity(PermissionHelper.buildBatteryOptimizationSettingsIntent())
+        );
+
+        // 7. Foreground Service State
         boolean fgsRunning = FloatingOverlayService.isServiceRunning();
         addPermissionCard(
-                "Foreground Overlay Service",
-                "Runs with foregroundServiceType=\"specialUse\" only while TouchFlow is turned on.",
+                getString(R.string.perm_fgs_title),
+                getString(R.string.perm_fgs_desc),
                 fgsRunning,
-                fgsRunning ? "Running" : "Standby",
+                getString(fgsRunning ? R.string.badge_running : R.string.badge_standby),
                 null,
                 null
         );

@@ -32,6 +32,7 @@ import com.example.touchflow.models.MenuLayoutType;
 import com.example.touchflow.models.TouchFlowConfig;
 import com.example.touchflow.preferences.TouchFlowPreferences;
 import com.example.touchflow.utilities.AppPackageHelper;
+import com.example.touchflow.utilities.LocaleHelper;
 import com.example.touchflow.utilities.SystemActionHelper;
 import com.example.touchflow.utilities.ViewAnimationHelper;
 
@@ -55,6 +56,7 @@ public class FloatingMenuController {
     private View rootView;
     private LinearLayout cardContainer;
     private FrameLayout actionsHost;
+    private Context uiContext;
     private boolean isShowing = false;
     private TouchFlowConfig currentConfig;
 
@@ -79,7 +81,8 @@ public class FloatingMenuController {
         this.currentConfig = config;
         if (isShowing) return;
 
-        LayoutInflater inflater = LayoutInflater.from(context);
+        uiContext = LocaleHelper.wrap(context);
+        LayoutInflater inflater = LayoutInflater.from(uiContext);
         rootView = inflater.inflate(R.layout.overlay_assistive_menu, null);
         cardContainer = rootView.findViewById(R.id.menu_card_container);
         actionsHost = rootView.findViewById(R.id.menu_actions_host);
@@ -99,6 +102,23 @@ public class FloatingMenuController {
         ImageButton btnMiniMax = rootView.findViewById(R.id.btn_menu_minimax);
         if (btnMiniMax != null) {
             btnMiniMax.setOnClickListener(v -> {
+                systemActionHelper.performHaptic(config.hapticEnabled);
+                dismiss(false);
+                if (listener != null) listener.onOpenMiniMax();
+            });
+        }
+
+        View btnMinPill = rootView.findViewById(R.id.btn_menu_minimize_pill);
+        if (btnMinPill != null) {
+            btnMinPill.setOnClickListener(v -> {
+                systemActionHelper.performHaptic(config.hapticEnabled);
+                if (listener != null) listener.onExecuteAction(ActionItem.MINIMIZE);
+            });
+        }
+
+        View btnMiniMaxPill = rootView.findViewById(R.id.btn_menu_minimax_pill);
+        if (btnMiniMaxPill != null) {
+            btnMiniMaxPill.setOnClickListener(v -> {
                 systemActionHelper.performHaptic(config.hapticEnabled);
                 dismiss(false);
                 if (listener != null) listener.onOpenMiniMax();
@@ -142,6 +162,7 @@ public class FloatingMenuController {
     }
 
     private void bindThemeAndHeader(TouchFlowConfig config) {
+        Context ctx = uiContext != null ? uiContext : LocaleHelper.wrap(context);
         int primaryText = OverlayThemeApplier.getPrimaryTextColor(config);
         int accent = OverlayThemeApplier.getAccentColor(config);
 
@@ -150,13 +171,31 @@ public class FloatingMenuController {
 
         ImageButton btnMiniMax = rootView.findViewById(R.id.btn_menu_minimax);
         if (btnMiniMax != null) {
-            OverlayThemeApplier.applyTileBackground(context, btnMiniMax, config, false);
+            OverlayThemeApplier.applyTileBackground(ctx, btnMiniMax, config, false);
             ImageViewCompat.setImageTintList(btnMiniMax, ColorStateList.valueOf(accent));
+        }
+
+        View btnMinPill = rootView.findViewById(R.id.btn_menu_minimize_pill);
+        ImageView ivMinPill = rootView.findViewById(R.id.iv_menu_minimize_pill);
+        TextView tvMinPill = rootView.findViewById(R.id.tv_menu_minimize_pill);
+        if (btnMinPill != null) {
+            OverlayThemeApplier.applyTileBackground(ctx, btnMinPill, config, false);
+            if (ivMinPill != null) ImageViewCompat.setImageTintList(ivMinPill, ColorStateList.valueOf(accent));
+            if (tvMinPill != null) tvMinPill.setTextColor(primaryText);
+        }
+
+        View btnMiniMaxPill = rootView.findViewById(R.id.btn_menu_minimax_pill);
+        ImageView ivMiniMaxPill = rootView.findViewById(R.id.iv_menu_minimax_pill);
+        TextView tvMiniMaxPill = rootView.findViewById(R.id.tv_menu_minimax_pill);
+        if (btnMiniMaxPill != null) {
+            OverlayThemeApplier.applyTileBackground(ctx, btnMiniMaxPill, config, false);
+            if (ivMiniMaxPill != null) ImageViewCompat.setImageTintList(ivMiniMaxPill, ColorStateList.valueOf(accent));
+            if (tvMiniMaxPill != null) tvMiniMaxPill.setTextColor(primaryText);
         }
 
         TextView btnQuickPanel = rootView.findViewById(R.id.btn_switch_quick_panel);
         btnQuickPanel.setTextColor(primaryText);
-        OverlayThemeApplier.applyTileBackground(context, btnQuickPanel, config, true);
+        OverlayThemeApplier.applyTileBackground(ctx, btnQuickPanel, config, true);
 
         ImageView btnApp = rootView.findViewById(R.id.btn_open_touchflow_app);
         ImageViewCompat.setImageTintList(btnApp, ColorStateList.valueOf(accent));
@@ -164,20 +203,20 @@ public class FloatingMenuController {
         ImageButton btnClose = rootView.findViewById(R.id.btn_close_menu);
         ImageViewCompat.setImageTintList(btnClose, ColorStateList.valueOf(primaryText));
 
-        float density = context.getResources().getDisplayMetrics().density;
+        float density = ctx.getResources().getDisplayMetrics().density;
         LinearLayout.LayoutParams cardParams = (LinearLayout.LayoutParams) cardContainer.getLayoutParams();
         if (config.menuLayout == MenuLayoutType.CIRCULAR) {
             cardParams.width = Math.round(332 * density);
-            OverlayThemeApplier.applyPanelBackground(context, cardContainer, config, 32f);
+            OverlayThemeApplier.applyPanelBackground(ctx, cardContainer, config, 32f);
         } else if (config.menuLayout == MenuLayoutType.FLOATING_RECTANGLE) {
             cardParams.width = Math.round(316 * density);
-            OverlayThemeApplier.applyPanelBackground(context, cardContainer, config, 24f);
+            OverlayThemeApplier.applyPanelBackground(ctx, cardContainer, config, 24f);
         } else if (config.menuLayout == MenuLayoutType.COMPACT) {
             cardParams.width = Math.round(336 * density);
-            OverlayThemeApplier.applyPanelBackground(context, cardContainer, config, 22f);
+            OverlayThemeApplier.applyPanelBackground(ctx, cardContainer, config, 22f);
         } else {
             cardParams.width = Math.round(332 * density);
-            OverlayThemeApplier.applyPanelBackground(context, cardContainer, config, 28f);
+            OverlayThemeApplier.applyPanelBackground(ctx, cardContainer, config, 28f);
         }
         cardContainer.setLayoutParams(cardParams);
     }
@@ -353,13 +392,14 @@ public class FloatingMenuController {
     }
 
     private View createActionTile(ActionItem item, TouchFlowConfig config, boolean compact) {
-        LayoutInflater inflater = LayoutInflater.from(context);
+        Context ctx = uiContext != null ? uiContext : LocaleHelper.wrap(context);
+        LayoutInflater inflater = LayoutInflater.from(ctx);
         View tile = inflater.inflate(R.layout.item_overlay_action, actionsHost, false);
         ImageView icon = tile.findViewById(R.id.iv_action_icon);
         TextView label = tile.findViewById(R.id.tv_action_label);
 
         boolean isActive = (item == ActionItem.FLASHLIGHT && systemActionHelper.isTorchOn());
-        OverlayThemeApplier.applyTileBackground(context, tile, config, isActive);
+        OverlayThemeApplier.applyTileBackground(ctx, tile, config, isActive);
 
         icon.setImageResource(item.getIconRes());
         int tint = isActive ? OverlayThemeApplier.getAccentColor(config) : OverlayThemeApplier.getPrimaryTextColor(config);
@@ -371,28 +411,29 @@ public class FloatingMenuController {
             label.setTextSize(TypedValue.COMPLEX_UNIT_SP, 10f);
         }
 
-        tile.setContentDescription(context.getString(item.getTitleRes()));
+        tile.setContentDescription(ctx.getString(item.getTitleRes()));
         tile.setOnClickListener(v -> handleActionTileClick(v, item, config));
         return tile;
     }
 
     private View createCircularNode(ActionItem item, TouchFlowConfig config, int sizePx) {
-        float density = context.getResources().getDisplayMetrics().density;
-        LinearLayout node = new LinearLayout(context);
+        Context ctx = uiContext != null ? uiContext : LocaleHelper.wrap(context);
+        float density = ctx.getResources().getDisplayMetrics().density;
+        LinearLayout node = new LinearLayout(ctx);
         node.setOrientation(LinearLayout.VERTICAL);
         node.setGravity(Gravity.CENTER);
         node.setPadding(Math.round(4 * density), Math.round(4 * density), Math.round(4 * density), Math.round(4 * density));
         boolean isActive = (item == ActionItem.FLASHLIGHT && systemActionHelper.isTorchOn());
-        OverlayThemeApplier.applyTileBackground(context, node, config, isActive);
+        OverlayThemeApplier.applyTileBackground(ctx, node, config, isActive);
 
-        ImageView icon = new ImageView(context);
+        ImageView icon = new ImageView(ctx);
         int iconSz = Math.round(18 * density);
         icon.setLayoutParams(new LinearLayout.LayoutParams(iconSz, iconSz));
         icon.setImageResource(item.getIconRes());
         int tint = isActive ? OverlayThemeApplier.getAccentColor(config) : OverlayThemeApplier.getPrimaryTextColor(config);
         ImageViewCompat.setImageTintList(icon, ColorStateList.valueOf(tint));
 
-        TextView label = new TextView(context);
+        TextView label = new TextView(ctx);
         label.setText(item.getTitleRes());
         label.setTextSize(TypedValue.COMPLEX_UNIT_SP, 8.5f);
         label.setTextColor(OverlayThemeApplier.getSecondaryTextColor(config));
@@ -402,14 +443,15 @@ public class FloatingMenuController {
 
         node.addView(icon);
         node.addView(label);
-        node.setContentDescription(context.getString(item.getTitleRes()));
+        node.setContentDescription(ctx.getString(item.getTitleRes()));
         node.setOnClickListener(v -> handleActionTileClick(v, item, config));
         return node;
     }
 
     private View createRectangleRowTile(ActionItem item, TouchFlowConfig config) {
-        float density = context.getResources().getDisplayMetrics().density;
-        LinearLayout row = new LinearLayout(context);
+        Context ctx = uiContext != null ? uiContext : LocaleHelper.wrap(context);
+        float density = ctx.getResources().getDisplayMetrics().density;
+        LinearLayout row = new LinearLayout(ctx);
         row.setOrientation(LinearLayout.HORIZONTAL);
         row.setGravity(Gravity.CENTER_VERTICAL);
         row.setMinimumHeight(Math.round(46 * density));
@@ -418,16 +460,16 @@ public class FloatingMenuController {
         row.setPadding(padH, padV, padH, padV);
 
         boolean isActive = (item == ActionItem.FLASHLIGHT && systemActionHelper.isTorchOn());
-        OverlayThemeApplier.applyTileBackground(context, row, config, isActive);
+        OverlayThemeApplier.applyTileBackground(ctx, row, config, isActive);
 
-        ImageView icon = new ImageView(context);
+        ImageView icon = new ImageView(ctx);
         int iconSz = Math.round(18 * density);
         icon.setLayoutParams(new LinearLayout.LayoutParams(iconSz, iconSz));
         icon.setImageResource(item.getIconRes());
         int tint = isActive ? OverlayThemeApplier.getAccentColor(config) : OverlayThemeApplier.getPrimaryTextColor(config);
         ImageViewCompat.setImageTintList(icon, ColorStateList.valueOf(tint));
 
-        TextView label = new TextView(context);
+        TextView label = new TextView(ctx);
         LinearLayout.LayoutParams tvLp = new LinearLayout.LayoutParams(
                 0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f
         );
@@ -441,7 +483,7 @@ public class FloatingMenuController {
 
         row.addView(icon);
         row.addView(label);
-        row.setContentDescription(context.getString(item.getTitleRes()));
+        row.setContentDescription(ctx.getString(item.getTitleRes()));
         row.setOnClickListener(v -> handleActionTileClick(v, item, config));
         return row;
     }

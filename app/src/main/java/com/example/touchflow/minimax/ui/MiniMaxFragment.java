@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.R;
+import com.example.touchflow.accessibility.TouchFlowAccessibilityService;
 import com.example.touchflow.activities.MainActivity;
 import com.example.touchflow.minimax.engine.AppCapabilityInspector;
 import com.example.touchflow.minimax.engine.DeviceCompatibilityEngine;
@@ -116,6 +117,23 @@ public class MiniMaxFragment extends Fragment {
             }
         });
 
+        view.findViewById(R.id.btn_minimax_minimize_now).setOnClickListener(v -> {
+            if (PermissionHelper.canDrawOverlays(requireContext()) && touchFlowPrefs.isServiceEnabled()) {
+                if (PermissionHelper.isAccessibilityEnabled(requireContext())) {
+                    FloatingOverlayService.minimizeFromApp(requireContext());
+                } else {
+                    Toast.makeText(
+                            requireContext(),
+                            getString(R.string.msg_accessibility_required, getString(R.string.action_minimize)),
+                            Toast.LENGTH_SHORT
+                    ).show();
+                    startActivity(PermissionHelper.buildAccessibilitySettingsIntent());
+                }
+            } else if (!TouchFlowAccessibilityService.performMinimize()) {
+                Toast.makeText(requireContext(), R.string.msg_enable_touchflow_minimize, Toast.LENGTH_SHORT).show();
+            }
+        });
+
         setupSwitches();
         setupAppRulesRows(view);
         setupPositionAndSizeChips(view);
@@ -145,7 +163,7 @@ public class MiniMaxFragment extends Fragment {
             miniMaxPrefs.setAutoMiniEnabled(isChecked);
             if (isChecked && !PermissionHelper.isAccessibilityEnabled(requireContext())) {
                 Toast.makeText(requireContext(),
-                        "Enable TouchFlow Accessibility Service in Access tab to detect Home & app switches.",
+                        R.string.minimax_need_access_toast,
                         Toast.LENGTH_LONG).show();
             }
         });
@@ -173,10 +191,10 @@ public class MiniMaxFragment extends Fragment {
 
     private void setupAppRulesRows(View view) {
         view.findViewById(R.id.row_supported_apps).setOnClickListener(v ->
-                showAppSelectionDialog("Supported Applications", true));
+                showAppSelectionDialog(getString(R.string.minimax_supported_apps), true));
 
         view.findViewById(R.id.row_excluded_apps).setOnClickListener(v ->
-                showAppSelectionDialog("Excluded Applications", false));
+                showAppSelectionDialog(getString(R.string.minimax_excluded_apps), false));
     }
 
     private void setupPositionAndSizeChips(View view) {
@@ -239,10 +257,10 @@ public class MiniMaxFragment extends Fragment {
         view.findViewById(R.id.btn_compat_guide).setOnClickListener(v -> {
             DeviceCompatibilityReport report = DeviceCompatibilityEngine.inspect(requireContext());
             new MaterialAlertDialogBuilder(requireContext())
-                    .setTitle(report.oemSkin.getDisplayName() + " Guide")
+                    .setTitle(report.oemSkin.getDisplayName())
                     .setMessage(report.oemSetupGuidance)
-                    .setPositiveButton("Developer Settings", (d, w) -> openDeveloperOrSystemSettings())
-                    .setNegativeButton("Close", null)
+                    .setPositiveButton(R.string.minimax_dev_settings_btn, (d, w) -> openDeveloperOrSystemSettings())
+                    .setNegativeButton(R.string.btn_close, null)
                     .show();
         });
 
@@ -310,7 +328,7 @@ public class MiniMaxFragment extends Fragment {
         new MaterialAlertDialogBuilder(requireContext())
                 .setTitle(title)
                 .setView(dialogView)
-                .setPositiveButton("Save", (d, w) -> {
+                .setPositiveButton(R.string.btn_save, (d, w) -> {
                     Set<String> updated = adapter.getSelectedPackages();
                     if (isSupportedList) {
                         miniMaxPrefs.setSupportedPackages(updated);
@@ -319,7 +337,7 @@ public class MiniMaxFragment extends Fragment {
                     }
                     refreshState();
                 })
-                .setNegativeButton("Cancel", null)
+                .setNegativeButton(R.string.btn_cancel, null)
                 .show();
     }
 
@@ -334,8 +352,8 @@ public class MiniMaxFragment extends Fragment {
         switchAutoSwitch.setChecked(config.autoMiniOnAppSwitch);
         switchOnlySupported.setChecked(config.onlySupportedAppsMode);
 
-        tvSupportedCount.setText(config.supportedPackages.size() + " apps");
-        tvExcludedCount.setText(config.excludedPackages.size() + " apps");
+        tvSupportedCount.setText(getString(R.string.minimax_apps_count_format, config.supportedPackages.size()));
+        tvExcludedCount.setText(getString(R.string.minimax_apps_count_format, config.excludedPackages.size()));
 
         // Permissions notice (non-intrusive banner, never spams dialogs)
         boolean overlayOk = PermissionHelper.canDrawOverlays(requireContext());
@@ -344,10 +362,10 @@ public class MiniMaxFragment extends Fragment {
             bannerPermissions.setVisibility(View.VISIBLE);
             StringBuilder sb = new StringBuilder();
             if (!overlayOk) {
-                sb.append("• Display Over Other Apps is needed to show the MiniMax Floating Dock.\n");
+                sb.append(getString(R.string.minimax_perm_overlay_missing)).append("\n");
             }
             if (!accessOk) {
-                sb.append("• TouchFlow Accessibility Service is needed to detect when you press Home or switch from apps like Facebook.");
+                sb.append(getString(R.string.minimax_perm_access_missing));
             }
             tvPermReason.setText(sb.toString().trim());
         } else {
@@ -363,22 +381,25 @@ public class MiniMaxFragment extends Fragment {
         ));
 
         tvCompatDetails.setText(
-                "• Device: " + report.manufacturer + " " + report.model + "\n"
-                        + "• OS Skin: " + report.oemSkin.getDisplayName() + "\n"
-                        + "• Android: " + report.androidVersion + " (API " + report.sdkInt + ")\n"
-                        + "• Freeform Feature: " + (report.hasFreeformSystemFeature ? "Declared" : "Not Declared") + "\n"
-                        + "• Dev Freeform Flag: " + (report.isDeveloperFreeformEnabled ? "Enabled" : "Off") + "\n"
-                        + "• PiP Support: " + (report.supportsPictureInPictureFeature ? "Available for PiP apps" : "Unavailable") + "\n\n"
-                        + report.summaryText
+                "• " + report.manufacturer + " " + report.model + "\n"
+                        + "• OS: " + report.oemSkin.getDisplayName() + "\n"
+                        + "• Android " + report.androidVersion + " (API " + report.sdkInt + ")\n"
+                        + "• Freeform: " + getString(report.hasFreeformSystemFeature ? R.string.badge_allowed : R.string.status_unavailable)
+                        + " • Dev Flag: " + getString(report.isDeveloperFreeformEnabled ? R.string.status_on : R.string.status_off) + "\n"
+                        + "• PiP: " + getString(report.supportsPictureInPictureFeature ? R.string.badge_allowed : R.string.status_unavailable)
+                        + "\n\n" + report.summaryText
         );
 
         // Last active app
         String lastPkg = MiniMaxAutomationEngine.getInstance(requireContext()).getLastActiveAppPackage();
         if (lastPkg != null && !lastPkg.isEmpty()) {
-            tvLastApp.setText("Last tracked app: " + AppCapabilityInspector.getAppLabel(requireContext(), lastPkg)
-                    + " (" + lastPkg + ")");
+            tvLastApp.setText(getString(
+                    R.string.minimax_last_app_format,
+                    AppCapabilityInspector.getAppLabel(requireContext(), lastPkg),
+                    lastPkg
+            ));
         } else {
-            tvLastApp.setText("Last tracked app: None yet");
+            tvLastApp.setText(R.string.minimax_last_app_none);
         }
 
         // History

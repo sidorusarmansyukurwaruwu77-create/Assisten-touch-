@@ -143,6 +143,12 @@ public class SystemActionHelper {
                     com.example.touchflow.services.FloatingOverlayService.openMiniMaxDockFromApp(appContext);
                 }
                 break;
+            case MINIMIZE:
+                if (callback != null) callback.onRequestCloseMenu();
+                if (!TouchFlowAccessibilityService.performMinimize()) {
+                    promptAccessibility(action);
+                }
+                break;
             case HOME:
                 if (callback != null) callback.onRequestCloseMenu();
                 if (!TouchFlowAccessibilityService.performHome()) {
@@ -164,7 +170,7 @@ public class SystemActionHelper {
             case SCREENSHOT:
                 if (callback != null) callback.onRequestCloseMenu();
                 if (Build.VERSION.SDK_INT < Build.VERSION_CODES.P) {
-                    showToast(appContext.getString(R.string.msg_screenshot_api_unsupported));
+                    showToast(uiContext().getString(R.string.msg_screenshot_api_unsupported));
                 } else {
                     mainHandler.postDelayed(() -> {
                         if (!TouchFlowAccessibilityService.performScreenshot()) {
@@ -176,7 +182,7 @@ public class SystemActionHelper {
             case LOCK_SCREEN:
                 if (callback != null) callback.onRequestCloseMenu();
                 if (Build.VERSION.SDK_INT < Build.VERSION_CODES.P) {
-                    showToast(appContext.getString(R.string.msg_lock_api_unsupported));
+                    showToast(uiContext().getString(R.string.msg_lock_api_unsupported));
                 } else if (!TouchFlowAccessibilityService.performLockScreen()) {
                     promptAccessibility(action);
                 }
@@ -233,9 +239,14 @@ public class SystemActionHelper {
         }
     }
 
+    private Context uiContext() {
+        return LocaleHelper.wrap(appContext);
+    }
+
     private void promptAccessibility(ActionItem action) {
-        String label = appContext.getString(action.getTitleRes());
-        showToast(appContext.getString(R.string.msg_accessibility_required, label));
+        Context ctx = uiContext();
+        String label = ctx.getString(action.getTitleRes());
+        showToast(ctx.getString(R.string.msg_accessibility_required, label));
         try {
             appContext.startActivity(PermissionHelper.buildAccessibilitySettingsIntent());
         } catch (Exception ignored) {
@@ -280,7 +291,8 @@ public class SystemActionHelper {
 
     public boolean setScreenBrightness(int value) {
         if (!PermissionHelper.canWriteSettings(appContext)) {
-            showToast(appContext.getString(R.string.msg_write_settings_required, appContext.getString(R.string.action_brightness)));
+            Context ctx = uiContext();
+            showToast(ctx.getString(R.string.msg_write_settings_required, ctx.getString(R.string.action_brightness)));
             try {
                 appContext.startActivity(PermissionHelper.buildWriteSettingsIntent(appContext));
             } catch (Exception ignored) {
@@ -308,7 +320,7 @@ public class SystemActionHelper {
     public boolean toggleFlashlight() {
         if (cameraManager == null || torchCameraId == null
                 || !appContext.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH)) {
-            showToast(appContext.getString(R.string.msg_flashlight_unavailable));
+            showToast(uiContext().getString(R.string.msg_flashlight_unavailable));
             return false;
         }
         try {
@@ -317,14 +329,15 @@ public class SystemActionHelper {
             isTorchOn = next;
             return true;
         } catch (Exception e) {
-            showToast(appContext.getString(R.string.msg_flashlight_unavailable));
+            showToast(uiContext().getString(R.string.msg_flashlight_unavailable));
             return false;
         }
     }
 
     public void toggleAutoRotation() {
+        Context ctx = uiContext();
         if (!PermissionHelper.canWriteSettings(appContext)) {
-            showToast(appContext.getString(R.string.msg_write_settings_required, appContext.getString(R.string.action_rotation)));
+            showToast(ctx.getString(R.string.msg_write_settings_required, ctx.getString(R.string.action_rotation)));
             try {
                 appContext.startActivity(PermissionHelper.buildWriteSettingsIntent(appContext));
             } catch (Exception ignored) {
@@ -343,7 +356,7 @@ public class SystemActionHelper {
                     Settings.System.ACCELEROMETER_ROTATION,
                     next
             );
-            showToast(appContext.getString(R.string.msg_rotation_toggled, next == 1 ? "ON" : "OFF"));
+            showToast(ctx.getString(R.string.msg_rotation_toggled, next == 1 ? ctx.getString(R.string.status_on) : ctx.getString(R.string.status_off)));
         } catch (Exception e) {
             openDisplaySettings();
         }
@@ -393,7 +406,7 @@ public class SystemActionHelper {
         }
     }
 
-    public String getWifiStatusLabel() {
+    public boolean isWifiActive() {
         try {
             ConnectivityManager cm = (ConnectivityManager) appContext.getSystemService(Context.CONNECTIVITY_SERVICE);
             if (cm != null) {
@@ -401,33 +414,67 @@ public class SystemActionHelper {
                 if (activeNetwork != null) {
                     NetworkCapabilities caps = cm.getNetworkCapabilities(activeNetwork);
                     if (caps != null && caps.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)) {
-                        return "Connected";
+                        return true;
+                    }
+                }
+            }
+            WifiManager wifiManager = (WifiManager) appContext.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+            return wifiManager != null && wifiManager.isWifiEnabled();
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    public String getWifiStatusLabel() {
+        Context ctx = uiContext();
+        try {
+            ConnectivityManager cm = (ConnectivityManager) appContext.getSystemService(Context.CONNECTIVITY_SERVICE);
+            if (cm != null) {
+                Network activeNetwork = cm.getActiveNetwork();
+                if (activeNetwork != null) {
+                    NetworkCapabilities caps = cm.getNetworkCapabilities(activeNetwork);
+                    if (caps != null && caps.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)) {
+                        return ctx.getString(R.string.status_connected);
                     }
                 }
             }
             WifiManager wifiManager = (WifiManager) appContext.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
             if (wifiManager != null && wifiManager.isWifiEnabled()) {
-                return "On";
+                return ctx.getString(R.string.status_on);
             }
-            return "Off";
+            return ctx.getString(R.string.status_off);
         } catch (Exception e) {
-            return "Settings";
+            return ctx.getString(R.string.status_settings);
         }
     }
 
-    public String getBluetoothStatusLabel() {
+    public boolean isBluetoothActive() {
         if (!PermissionHelper.hasBluetoothConnectPermission(appContext)) {
-            return "Tap to view";
+            return false;
         }
         try {
             BluetoothManager bm = (BluetoothManager) appContext.getSystemService(Context.BLUETOOTH_SERVICE);
             BluetoothAdapter adapter = bm != null ? bm.getAdapter() : BluetoothAdapter.getDefaultAdapter();
-            if (adapter == null) return "Unavailable";
-            return adapter.isEnabled() ? "On" : "Off";
-        } catch (SecurityException e) {
-            return "Tap to view";
+            return adapter != null && adapter.isEnabled();
         } catch (Exception e) {
-            return "Settings";
+            return false;
+        }
+    }
+
+    public String getBluetoothStatusLabel() {
+        Context ctx = uiContext();
+        if (!PermissionHelper.hasBluetoothConnectPermission(appContext)) {
+            return ctx.getString(R.string.status_tap_view);
+        }
+        try {
+            BluetoothManager bm = (BluetoothManager) appContext.getSystemService(Context.BLUETOOTH_SERVICE);
+            BluetoothAdapter adapter = bm != null ? bm.getAdapter() : BluetoothAdapter.getDefaultAdapter();
+            if (adapter == null) return ctx.getString(R.string.status_unavailable);
+            return adapter.isEnabled() ? ctx.getString(R.string.status_on) : ctx.getString(R.string.status_off);
+        } catch (SecurityException e) {
+            return ctx.getString(R.string.status_tap_view);
+        } catch (Exception e) {
+            return ctx.getString(R.string.status_settings);
         }
     }
 

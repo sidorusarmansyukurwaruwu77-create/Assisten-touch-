@@ -47,7 +47,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/space_grotesk"
-                    android:text="Touch Actions"
+                    android:text="@string/gestures_touch_actions_title"
                     android:textColor="@color/tf_text_primary"
                     android:textSize="16sp"
                     android:textStyle="bold" />
@@ -76,7 +76,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/inter"
-                            android:text="Single Tap"
+                            android:text="@string/gesture_single_tap"
                             android:textColor="@color/tf_text_primary"
                             android:textSize="14sp"
                             android:textStyle="bold" />
@@ -85,7 +85,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/inter"
-                            android:text="Primary tap on floating button"
+                            android:text="@string/gesture_single_tap_desc"
                             android:textColor="@color/tf_text_secondary"
                             android:textSize="12sp" />
                     </LinearLayout>
@@ -98,7 +98,7 @@
                         android:fontFamily="@font/inter"
                         android:paddingHorizontal="12dp"
                         android:paddingVertical="6dp"
-                        android:text="Open Menu"
+                        android:text="@string/action_open_menu"
                         android:textColor="@color/tf_secondary"
                         android:textSize="12sp"
                         android:textStyle="bold" />
@@ -128,7 +128,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/inter"
-                            android:text="Double Tap"
+                            android:text="@string/gesture_double_tap"
                             android:textColor="@color/tf_text_primary"
                             android:textSize="14sp"
                             android:textStyle="bold" />
@@ -137,7 +137,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/inter"
-                            android:text="Quick double tap shortcut"
+                            android:text="@string/gesture_double_tap_desc"
                             android:textColor="@color/tf_text_secondary"
                             android:textSize="12sp" />
                     </LinearLayout>
@@ -150,7 +150,7 @@
                         android:fontFamily="@font/inter"
                         android:paddingHorizontal="12dp"
                         android:paddingVertical="6dp"
-                        android:text="Quick Panel"
+                        android:text="@string/action_quick_panel"
                         android:textColor="@color/tf_secondary"
                         android:textSize="12sp"
                         android:textStyle="bold" />
@@ -180,7 +180,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/inter"
-                            android:text="Long Press"
+                            android:text="@string/gesture_long_press"
                             android:textColor="@color/tf_text_primary"
                             android:textSize="14sp"
                             android:textStyle="bold" />
@@ -189,7 +189,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/inter"
-                            android:text="Hold floating button briefly"
+                            android:text="@string/gesture_long_press_desc"
                             android:textColor="@color/tf_text_secondary"
                             android:textSize="12sp" />
                     </LinearLayout>
@@ -202,7 +202,7 @@
                         android:fontFamily="@font/inter"
                         android:paddingHorizontal="12dp"
                         android:paddingVertical="6dp"
-                        android:text="Screenshot"
+                        android:text="@string/action_screenshot"
                         android:textColor="@color/tf_secondary"
                         android:textSize="12sp"
                         android:textStyle="bold" />
@@ -232,7 +232,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/inter"
-                            android:text="Swipe Gesture"
+                            android:text="@string/gesture_swipe"
                             android:textColor="@color/tf_text_primary"
                             android:textSize="14sp"
                             android:textStyle="bold" />
@@ -241,7 +241,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/inter"
-                            android:text="Quick vertical flick on orb"
+                            android:text="@string/gesture_swipe_desc"
                             android:textColor="@color/tf_text_secondary"
                             android:textSize="12sp" />
                     </LinearLayout>
@@ -254,7 +254,7 @@
                         android:fontFamily="@font/inter"
                         android:paddingHorizontal="12dp"
                         android:paddingVertical="6dp"
-                        android:text="Home"
+                        android:text="@string/action_home"
                         android:textColor="@color/tf_secondary"
                         android:textSize="12sp"
                         android:textStyle="bold" />
@@ -279,7 +279,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/space_grotesk"
-                    android:text="Behavior &amp; Haptics"
+                    android:text="@string/gestures_behavior_title"
                     android:textColor="@color/tf_text_primary"
                     android:textSize="16sp"
                     android:textStyle="bold" />
@@ -302,7 +302,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/inter"
-                            android:text="Haptic Feedback"
+                            android:text="@string/gesture_haptic"
                             android:textColor="@color/tf_text_primary"
                             android:textSize="14sp"
                             android:textStyle="bold" />
@@ -311,7 +311,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/inter"
-                            android:text="Subtle vibration on orb &amp; menu taps"
+                            android:text="@string/gesture_haptic_desc"
                             android:textColor="@color/tf_text_secondary"
                             android:textSize="12sp" />
                     </LinearLayout>
@@ -340,7 +340,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/inter"
-                            android:text="Snap to Screen Edge"
+                            android:text="@string/gesture_edge_snap"
                             android:textColor="@color/tf_text_primary"
                             android:textSize="14sp"
                             android:textStyle="bold" />
@@ -349,7 +349,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/inter"
-                            android:text="Smoothly dock to nearest side after drag"
+                            android:text="@string/gesture_edge_snap_desc"
                             android:textColor="@color/tf_text_secondary"
                             android:textSize="12sp" />
                     </LinearLayout>
@@ -378,7 +378,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/inter"
-                            android:text="Auto-Dim When Idle"
+                            android:text="@string/gesture_idle_dim"
                             android:textColor="@color/tf_text_primary"
                             android:textSize="14sp"
                             android:textStyle="bold" />
@@ -387,7 +387,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/inter"
-                            android:text="Fade button gently when untouched for 3s"
+                            android:text="@string/gesture_idle_dim_desc"
                             android:textColor="@color/tf_text_secondary"
                             android:textSize="12sp" />
                     </LinearLayout>

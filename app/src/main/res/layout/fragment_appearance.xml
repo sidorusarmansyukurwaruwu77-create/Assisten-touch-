@@ -137,7 +137,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:fontFamily="@font/inter"
-                        android:text="Button Size (35–80 dp)"
+                        android:text="@string/appearance_size_label"
                         android:textColor="@color/tf_text_primary"
                         android:textSize="13sp" />
 
@@ -173,7 +173,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:fontFamily="@font/inter"
-                        android:text="Opacity (10–100%)"
+                        android:text="@string/appearance_opacity_label"
                         android:textColor="@color/tf_text_primary"
                         android:textSize="13sp" />
 
@@ -209,7 +209,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:fontFamily="@font/inter"
-                        android:text="Shadow Intensity"
+                        android:text="@string/appearance_shadow_label"
                         android:textColor="@color/tf_text_primary"
                         android:textSize="13sp" />
 
@@ -238,7 +238,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:fontFamily="@font/inter"
-                    android:text="Animation Speed"
+                    android:text="@string/appearance_anim_speed_label"
                     android:textColor="@color/tf_text_primary"
                     android:textSize="13sp" />
 
@@ -255,21 +255,21 @@
                         style="@style/Widget.Material3.Chip.Filter"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Smooth" />
+                        android:text="@string/speed_smooth" />
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/chip_speed_normal"
                         style="@style/Widget.Material3.Chip.Filter"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Balanced" />
+                        android:text="@string/speed_balanced" />
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/chip_speed_fast"
                         style="@style/Widget.Material3.Chip.Filter"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Snappy" />
+                        android:text="@string/speed_snappy" />
                 </com.google.android.material.chip.ChipGroup>
 
                 <!-- Button Icon Style -->
@@ -278,7 +278,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
                     android:fontFamily="@font/inter"
-                    android:text="Button Icon"
+                    android:text="@string/appearance_button_icon_label"
                     android:textColor="@color/tf_text_primary"
                     android:textSize="13sp" />
 
@@ -301,7 +301,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="14dp"
                     android:fontFamily="@font/inter"
-                    android:text="Button Color"
+                    android:text="@string/appearance_button_color_label"
                     android:textColor="@color/tf_text_primary"
                     android:textSize="13sp" />
 
@@ -324,7 +324,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="14dp"
                     android:fontFamily="@font/inter"
-                    android:text="Icon Color"
+                    android:text="@string/appearance_icon_color_label"
                     android:textColor="@color/tf_text_primary"
                     android:textSize="13sp" />
 
@@ -378,42 +378,42 @@
                         style="@style/Widget.Material3.Chip.Filter"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Dark Mode" />
+                        android:text="@string/theme_dark" />
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/chip_theme_light"
                         style="@style/Widget.Material3.Chip.Filter"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Light Mode" />
+                        android:text="@string/theme_light" />
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/chip_theme_amoled"
                         style="@style/Widget.Material3.Chip.Filter"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="AMOLED Black" />
+                        android:text="@string/theme_amoled" />
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/chip_theme_glass"
                         style="@style/Widget.Material3.Chip.Filter"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Transparent Glass" />
+                        android:text="@string/theme_glass" />
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/chip_theme_gradient"
                         style="@style/Widget.Material3.Chip.Filter"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Gradient Theme" />
+                        android:text="@string/theme_gradient" />
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/chip_theme_custom"
                         style="@style/Widget.Material3.Chip.Filter"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Custom Theme" />
+                        android:text="@string/theme_custom" />
                 </com.google.android.material.chip.ChipGroup>
 
                 <LinearLayout
@@ -428,7 +428,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/inter"
-                        android:text="Custom Theme Accent"
+                        android:text="@string/appearance_custom_accent_label"
                         android:textColor="@color/tf_text_secondary"
                         android:textSize="12sp" />
 
@@ -483,28 +483,28 @@
                         style="@style/Widget.Material3.Chip.Filter"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Circular Menu" />
+                        android:text="@string/layout_circular" />
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/chip_layout_grid"
                         style="@style/Widget.Material3.Chip.Filter"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Grid Menu" />
+                        android:text="@string/layout_grid" />
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/chip_layout_rectangle"
                         style="@style/Widget.Material3.Chip.Filter"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Floating Rectangle" />
+                        android:text="@string/layout_rectangle" />
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/chip_layout_compact"
                         style="@style/Widget.Material3.Chip.Filter"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Compact Menu" />
+                        android:text="@string/layout_compact" />
                 </com.google.android.material.chip.ChipGroup>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>

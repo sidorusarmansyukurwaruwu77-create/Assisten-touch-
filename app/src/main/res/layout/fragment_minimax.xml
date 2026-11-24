@@ -63,7 +63,7 @@
                 android:fontFamily="@font/inter"
                 android:paddingHorizontal="10dp"
                 android:paddingVertical="5dp"
-                android:text="Checking"
+                android:text="@string/badge_standby"
                 android:textColor="@color/tf_secondary"
                 android:textSize="11sp"
                 android:textStyle="bold" />
@@ -84,7 +84,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/space_grotesk"
-                android:text="Setup Required for Auto Detection"
+                android:text="@string/minimax_setup_needed_title"
                 android:textColor="@color/tf_warning"
                 android:textSize="14sp"
                 android:textStyle="bold" />
@@ -103,10 +103,10 @@
                 android:id="@+id/btn_minimax_open_permissions"
                 style="@style/Widget.Material3.Button.TonalButton"
                 android:layout_width="wrap_content"
-                android:layout_height="44dp"
+                android:layout_height="48dp"
                 android:layout_marginTop="8dp"
                 android:fontFamily="@font/inter"
-                android:text="Open TouchFlow Access"
+                android:text="@string/minimax_open_access_btn"
                 android:textAllCaps="false"
                 android:textColor="@color/tf_text_primary"
                 android:textSize="12.5sp"
@@ -115,7 +115,7 @@
                 app:cornerRadius="12dp" />
         </LinearLayout>
 
-        <!-- Automation Switches Card -->
+        <!-- Automation & Minimize Switches Card -->
         <com.google.android.material.card.MaterialCardView
             style="@style/TouchFlow.Card"
             android:layout_width="match_parent"
@@ -132,7 +132,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/space_grotesk"
-                    android:text="Automation Controls"
+                    android:text="@string/minimax_controls_title"
                     android:textColor="@color/tf_text_primary"
                     android:textSize="16sp"
                     android:textStyle="bold" />
@@ -156,7 +156,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/inter"
-                            android:text="Auto Mini"
+                            android:text="@string/minimax_auto_mini"
                             android:textColor="@color/tf_text_primary"
                             android:textSize="14sp"
                             android:textStyle="bold" />
@@ -165,7 +165,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/inter"
-                            android:text="Automatically trigger MiniMax when leaving active apps"
+                            android:text="@string/minimax_auto_mini_desc"
                             android:textColor="@color/tf_text_secondary"
                             android:textSize="12sp" />
                     </LinearLayout>
@@ -195,7 +195,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/inter"
-                            android:text="Floating Assistant"
+                            android:text="@string/minimax_floating_assistant"
                             android:textColor="@color/tf_text_primary"
                             android:textSize="14sp"
                             android:textStyle="bold" />
@@ -204,7 +204,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/inter"
-                            android:text="Show MiniMax Quick Dock &amp; OEM fallback overlay"
+                            android:text="@string/minimax_floating_assistant_desc"
                             android:textColor="@color/tf_text_secondary"
                             android:textSize="12sp" />
                     </LinearLayout>
@@ -234,7 +234,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/inter"
-                            android:text="Auto Mini on Home"
+                            android:text="@string/minimax_auto_home"
                             android:textColor="@color/tf_text_primary"
                             android:textSize="14sp"
                             android:textStyle="bold" />
@@ -243,7 +243,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/inter"
-                            android:text="Detect last active app when pressing Home"
+                            android:text="@string/minimax_auto_home_desc"
                             android:textColor="@color/tf_text_secondary"
                             android:textSize="12sp" />
                     </LinearLayout>
@@ -273,7 +273,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/inter"
-                            android:text="Auto Mini on App Switching"
+                            android:text="@string/minimax_auto_switch"
                             android:textColor="@color/tf_text_primary"
                             android:textSize="14sp"
                             android:textStyle="bold" />
@@ -282,7 +282,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/inter"
-                            android:text="Trigger when switching between active apps"
+                            android:text="@string/minimax_auto_switch_desc"
                             android:textColor="@color/tf_text_secondary"
                             android:textSize="12sp" />
                     </LinearLayout>
@@ -292,6 +292,24 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
                 </LinearLayout>
+
+                <!-- Explicit Minimize Action Button alongside MiniMax -->
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_minimax_minimize_now"
+                    style="@style/Widget.Material3.Button.TonalButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_marginTop="14dp"
+                    android:fontFamily="@font/space_grotesk"
+                    android:text="@string/minimax_minimize_now_btn"
+                    android:textAllCaps="false"
+                    android:textColor="@color/tf_text_primary"
+                    android:textSize="13.5sp"
+                    android:textStyle="bold"
+                    app:backgroundTint="@color/tf_primary_soft"
+                    app:cornerRadius="14dp"
+                    app:icon="@drawable/ic_minimize"
+                    app:iconTint="@color/tf_secondary" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
@@ -312,7 +330,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/space_grotesk"
-                    android:text="Application Rules"
+                    android:text="@string/minimax_app_rules_title"
                     android:textColor="@color/tf_text_primary"
                     android:textSize="16sp"
                     android:textStyle="bold" />
@@ -335,7 +353,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/inter"
-                            android:text="Only Supported Apps List"
+                            android:text="@string/minimax_only_supported"
                             android:textColor="@color/tf_text_primary"
                             android:textSize="13.5sp"
                             android:textStyle="bold" />
@@ -344,7 +362,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/inter"
-                            android:text="Off = all apps except Excluded list"
+                            android:text="@string/minimax_only_supported_desc"
                             android:textColor="@color/tf_text_secondary"
                             android:textSize="12sp" />
                     </LinearLayout>
@@ -379,7 +397,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/inter"
-                            android:text="Supported Applications"
+                            android:text="@string/minimax_supported_apps"
                             android:textColor="@color/tf_text_primary"
                             android:textSize="14sp"
                             android:textStyle="bold" />
@@ -388,7 +406,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/inter"
-                            android:text="Facebook, YouTube, WhatsApp &amp; custom picks"
+                            android:text="@string/minimax_supported_apps_desc"
                             android:textColor="@color/tf_text_secondary"
                             android:textSize="12sp" />
                     </LinearLayout>
@@ -401,7 +419,7 @@
                         android:fontFamily="@font/inter"
                         android:paddingHorizontal="12dp"
                         android:paddingVertical="6dp"
-                        android:text="8 apps"
+                        android:text="0"
                         android:textColor="@color/tf_secondary"
                         android:textSize="12sp"
                         android:textStyle="bold" />
@@ -431,7 +449,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/inter"
-                            android:text="Excluded Applications"
+                            android:text="@string/minimax_excluded_apps"
                             android:textColor="@color/tf_text_primary"
                             android:textSize="14sp"
                             android:textStyle="bold" />
@@ -440,7 +458,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/inter"
-                            android:text="Apps skipped by MiniMax automation"
+                            android:text="@string/minimax_excluded_apps_desc"
                             android:textColor="@color/tf_text_secondary"
                             android:textSize="12sp" />
                     </LinearLayout>
@@ -453,7 +471,7 @@
                         android:fontFamily="@font/inter"
                         android:paddingHorizontal="12dp"
                         android:paddingVertical="6dp"
-                        android:text="6 apps"
+                        android:text="0"
                         android:textColor="@color/tf_warning"
                         android:textSize="12sp"
                         android:textStyle="bold" />
@@ -478,7 +496,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/space_grotesk"
-                    android:text="Mini Window Geometry"
+                    android:text="@string/minimax_geometry_title"
                     android:textColor="@color/tf_text_primary"
                     android:textSize="16sp"
                     android:textStyle="bold" />
@@ -488,7 +506,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:fontFamily="@font/inter"
-                    android:text="Window Position"
+                    android:text="@string/minimax_window_position"
                     android:textColor="@color/tf_text_secondary"
                     android:textSize="12.5sp" />
 
@@ -505,35 +523,35 @@
                         style="@style/Widget.Material3.Chip.Filter"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Top Left" />
+                        android:text="@string/minimax_pos_top_left" />
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/chip_pos_top_right"
                         style="@style/Widget.Material3.Chip.Filter"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Top Right" />
+                        android:text="@string/minimax_pos_top_right" />
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/chip_pos_center"
                         style="@style/Widget.Material3.Chip.Filter"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Center" />
+                        android:text="@string/minimax_pos_center" />
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/chip_pos_bottom_left"
                         style="@style/Widget.Material3.Chip.Filter"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Bottom Left" />
+                        android:text="@string/minimax_pos_bottom_left" />
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/chip_pos_bottom_right"
                         style="@style/Widget.Material3.Chip.Filter"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Bottom Right" />
+                        android:text="@string/minimax_pos_bottom_right" />
                 </com.google.android.material.chip.ChipGroup>
 
                 <TextView
@@ -541,7 +559,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
                     android:fontFamily="@font/inter"
-                    android:text="Window Size"
+                    android:text="@string/minimax_window_size"
                     android:textColor="@color/tf_text_secondary"
                     android:textSize="12.5sp" />
 
@@ -558,21 +576,21 @@
                         style="@style/Widget.Material3.Chip.Filter"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Compact (55%)" />
+                        android:text="@string/minimax_size_compact" />
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/chip_size_balanced"
                         style="@style/Widget.Material3.Chip.Filter"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Balanced (70%)" />
+                        android:text="@string/minimax_size_balanced" />
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/chip_size_large"
                         style="@style/Widget.Material3.Chip.Filter"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Large (85%)" />
+                        android:text="@string/minimax_size_large" />
                 </com.google.android.material.chip.ChipGroup>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
@@ -594,7 +612,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/space_grotesk"
-                    android:text="Device Compatibility Engine"
+                    android:text="@string/minimax_compat_title"
                     android:textColor="@color/tf_text_primary"
                     android:textSize="16sp"
                     android:textStyle="bold" />
@@ -616,7 +634,7 @@
                     android:layout_height="48dp"
                     android:layout_marginTop="12dp"
                     android:fontFamily="@font/inter"
-                    android:text="OEM Setup &amp; Freeform Guide"
+                    android:text="@string/minimax_compat_guide_btn"
                     android:textAllCaps="false"
                     android:textColor="@color/tf_text_primary"
                     android:textSize="13.5sp"
@@ -650,7 +668,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:fontFamily="@font/space_grotesk"
-                        android:text="Automation History"
+                        android:text="@string/minimax_history_title"
                         android:textColor="@color/tf_text_primary"
                         android:textSize="16sp"
                         android:textStyle="bold" />
@@ -659,9 +677,9 @@
                         android:id="@+id/btn_minimax_test"
                         style="@style/Widget.Material3.Button.TextButton"
                         android:layout_width="wrap_content"
-                        android:layout_height="44dp"
+                        android:layout_height="48dp"
                         android:fontFamily="@font/inter"
-                        android:text="Test Last App"
+                        android:text="@string/minimax_test_last_app"
                         android:textAllCaps="false"
                         android:textColor="@color/tf_secondary"
                         android:textSize="12.5sp"
@@ -671,9 +689,9 @@
                         android:id="@+id/btn_minimax_clear_history"
                         style="@style/Widget.Material3.Button.TextButton"
                         android:layout_width="wrap_content"
-                        android:layout_height="44dp"
+                        android:layout_height="48dp"
                         android:fontFamily="@font/inter"
-                        android:text="Clear"
+                        android:text="@string/minimax_clear_history"
                         android:textAllCaps="false"
                         android:textColor="@color/tf_text_secondary"
                         android:textSize="12.5sp" />
@@ -685,7 +703,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
                     android:fontFamily="@font/inter"
-                    android:text="Last tracked app: None yet"
+                    android:text="@string/minimax_last_app_none"
                     android:textColor="@color/tf_text_secondary"
                     android:textSize="12sp" />
 
@@ -702,7 +720,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:fontFamily="@font/inter"
-                    android:text="No automation events recorded yet. Open an app (like Facebook) and press Home when Auto Mini is active."
+                    android:text="@string/minimax_history_empty"
                     android:textColor="@color/tf_text_muted"
                     android:textSize="12.5sp" />
             </LinearLayout>

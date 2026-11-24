@@ -1,10 +1,12 @@
 package com.example.touchflow.activities;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -26,6 +28,7 @@ import com.example.touchflow.fragments.ShortcutsFragment;
 import com.example.touchflow.minimax.ui.MiniMaxFragment;
 import com.example.touchflow.preferences.TouchFlowPreferences;
 import com.example.touchflow.services.FloatingOverlayService;
+import com.example.touchflow.utilities.LocaleHelper;
 import com.example.touchflow.utilities.PermissionHelper;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -42,6 +45,11 @@ public class MainActivity extends AppCompatActivity {
                     FloatingOverlayService.startService(this);
                 }
             });
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(LocaleHelper.wrap(newBase));
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +74,15 @@ public class MainActivity extends AppCompatActivity {
             Insets navBars = insets.getInsets(WindowInsetsCompat.Type.navigationBars());
             v.setPadding(0, 0, 0, navBars.bottom);
             return insets;
+        });
+
+        TextView tvLangCode = findViewById(R.id.tv_language_code);
+        updateLanguageCodeLabel(tvLangCode);
+        findViewById(R.id.btn_language_switch).setOnClickListener(v -> {
+            String nextLang = LocaleHelper.isIndonesian(this)
+                    ? LocaleHelper.LANG_ENGLISH
+                    : LocaleHelper.LANG_INDONESIAN;
+            applyLanguageSelection(nextLang);
         });
 
         findViewById(R.id.btn_open_minimax).setOnClickListener(v -> openMiniMaxPage());
@@ -101,6 +118,20 @@ public class MainActivity extends AppCompatActivity {
                 openMiniMaxPage();
             }
         }
+    }
+
+    private void updateLanguageCodeLabel(TextView tvLangCode) {
+        if (tvLangCode == null) return;
+        tvLangCode.setText(LocaleHelper.isIndonesian(this) ? R.string.lang_code_id : R.string.lang_code_en);
+    }
+
+    public void applyLanguageSelection(String langCode) {
+        String current = LocaleHelper.getSavedLanguage(this);
+        if (current.equals(langCode)) return;
+        LocaleHelper.setLanguageAndApply(this, langCode);
+        Context localized = LocaleHelper.wrap(this);
+        Toast.makeText(localized, localized.getString(R.string.lang_switched_toast), Toast.LENGTH_SHORT).show();
+        recreate();
     }
 
     @Override

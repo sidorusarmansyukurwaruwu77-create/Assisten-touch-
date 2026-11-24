@@ -13,7 +13,8 @@ import com.example.touchflow.minimax.preferences.MiniMaxPreferences;
 public class MiniMaxAutomationEngine {
 
     public interface DockEventListener {
-        void onMiniMaxDockRequested(String packageName, String appLabel, String statusDetail, boolean wasFreeformLaunched);
+        void onMiniMaxDockRequested(String packageName, String appLabel, String statusDetail,
+                                    boolean wasFreeformLaunched, boolean startMinimized);
     }
 
     private static final long DEBOUNCE_MS = 1500L;
@@ -104,11 +105,63 @@ public class MiniMaxAutomationEngine {
         }
     }
 
+    private Context uiContext() {
+        return com.example.touchflow.utilities.LocaleHelper.wrap(appContext);
+    }
+
+    public boolean triggerMinimizeAction() {
+        String candidate = !currentForegroundPackage.isEmpty()
+                && !AppCapabilityInspector.isSystemOrLauncherPackage(appContext, currentForegroundPackage)
+                ? currentForegroundPackage
+                : lastActiveAppPackage;
+
+        boolean wentHome = com.example.touchflow.accessibility.TouchFlowAccessibilityService.performHomeRaw();
+        Context uiCtx = uiContext();
+
+        if (isEligibleApp(candidate)) {
+            lastActiveAppPackage = candidate;
+            preferences.setLastActiveAppPackage(candidate);
+            String appLabel = AppCapabilityInspector.getAppLabel(appContext, candidate);
+
+            long now = System.currentTimeMillis();
+            lastTriggerTimeMs = now;
+            lastTriggeredPackage = candidate;
+
+            preferences.addHistoryEntry(new AutomationLogEntry(
+                    now,
+                    candidate,
+                    appLabel,
+                    AutomationTriggerType.MINIMIZE.getLabel(uiCtx),
+                    "MINIMIZE_DOCK",
+                    false,
+                    uiCtx.getString(com.example.R.string.msg_minimized_to_dock, appLabel)
+            ));
+
+            notifyDock(
+                    candidate,
+                    appLabel,
+                    uiCtx.getString(com.example.R.string.minimax_dock_tap_mini),
+                    false,
+                    false
+            );
+        } else if (wentHome) {
+            notifyDock(
+                    "",
+                    uiCtx.getString(com.example.R.string.minimax_dock_minimized_chip),
+                    uiCtx.getString(com.example.R.string.msg_minimized_home),
+                    false,
+                    true
+            );
+        }
+        return wentHome;
+    }
+
     public FloatingWindowAdapter.LaunchResult triggerManualMiniLaunch(String packageName) {
         String target = (packageName != null && !packageName.isEmpty()) ? packageName : lastActiveAppPackage;
+        Context uiCtx = uiContext();
         if (target == null || target.isEmpty()) {
             return new FloatingWindowAdapter.LaunchResult(
-                    false, "NO_TARGET", "Open another app first so MiniMax tracks your last active app.", false
+                    false, "NO_TARGET", uiCtx.getString(com.example.R.string.minimax_last_app_none), false
             );
         }
 
@@ -121,14 +174,14 @@ public class MiniMaxAutomationEngine {
                 System.currentTimeMillis(),
                 target,
                 label,
-                AutomationTriggerType.MANUAL_LAUNCH.getLabel(),
+                AutomationTriggerType.MANUAL_LAUNCH.getLabel(uiCtx),
                 result.mechanism,
                 result.launchedInWindow,
                 result.detail
         ));
 
         if (!result.launchedInWindow && result.showFloatingFallback) {
-            notifyDock(target, label, result.detail, false);
+            notifyDock(target, label, result.detail, false, false);
         }
         return result;
     }
@@ -157,19 +210,20 @@ public class MiniMaxAutomationEngine {
         DeviceCompatibilityReport report = DeviceCompatibilityEngine.inspect(appContext);
         FloatingWindowAdapter.LaunchResult result = windowAdapter.tryLaunchMiniWindow(targetPackage, config, report);
         String appLabel = AppCapabilityInspector.getAppLabel(appContext, targetPackage);
+        Context uiCtx = uiContext();
 
         preferences.addHistoryEntry(new AutomationLogEntry(
                 now,
                 targetPackage,
                 appLabel,
-                triggerType.getLabel(),
+                triggerType.getLabel(uiCtx),
                 result.mechanism,
                 result.launchedInWindow,
                 result.detail
         ));
 
         if (config.floatingAssistantEnabled && (result.showFloatingFallback || result.launchedInWindow)) {
-            notifyDock(targetPackage, appLabel, result.detail, result.launchedInWindow);
+            notifyDock(targetPackage, appLabel, result.detail, result.launchedInWindow, false);
         }
     }
 
@@ -190,10 +244,11 @@ public class MiniMaxAutomationEngine {
         return true;
     }
 
-    private void notifyDock(String packageName, String appLabel, String detail, boolean launched) {
+    private void notifyDock(String packageName, String appLabel, String detail,
+                            boolean launched, boolean startMinimized) {
         mainHandler.post(() -> {
             if (dockListener != null) {
-                dockListener.onMiniMaxDockRequested(packageName, appLabel, detail, launched);
+                dockListener.onMiniMaxDockRequested(packageName, appLabel, detail, launched, startMinimized);
             }
         });
     }

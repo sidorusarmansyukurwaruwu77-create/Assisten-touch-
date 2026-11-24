@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
+import android.os.PowerManager;
 import android.provider.Settings;
 import android.text.TextUtils;
 
@@ -66,6 +67,15 @@ public final class PermissionHelper {
                 == PackageManager.PERMISSION_GRANTED;
     }
 
+    public static boolean isIgnoringBatteryOptimizations(Context context) {
+        try {
+            PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
+            return pm != null && pm.isIgnoringBatteryOptimizations(context.getPackageName());
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
     public static Intent buildOverlayPermissionIntent(Context context) {
         Intent intent = new Intent(
                 Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
@@ -93,6 +103,12 @@ public final class PermissionHelper {
     public static Intent buildAppNotificationSettingsIntent(Context context) {
         Intent intent = new Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS);
         intent.putExtra(Settings.EXTRA_APP_PACKAGE, context.getPackageName());
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        return intent;
+    }
+
+    public static Intent buildBatteryOptimizationSettingsIntent() {
+        Intent intent = new Intent(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         return intent;
     }

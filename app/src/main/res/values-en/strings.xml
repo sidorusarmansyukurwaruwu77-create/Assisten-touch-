@@ -1,0 +1,287 @@
+<resources>
+    <string name="app_name">TouchFlow</string>
+    <string name="app_tagline">Assistive Touch</string>
+    <string name="about_title">About TouchFlow</string>
+
+    <!-- Language -->
+    <string name="lang_code_id">ID</string>
+    <string name="lang_code_en">EN</string>
+    <string name="lang_name_id">Bahasa Indonesia</string>
+    <string name="lang_name_en">English</string>
+    <string name="lang_section_title">App Language</string>
+    <string name="lang_section_subtitle">Choose primary language for the app and floating overlays</string>
+    <string name="lang_switched_toast">Language switched to English</string>
+    <string name="cd_language_switch">Switch app language</string>
+
+    <!-- Navigation -->
+    <string name="nav_dashboard">Home</string>
+    <string name="nav_appearance">Style</string>
+    <string name="nav_gestures">Gestures</string>
+    <string name="nav_shortcuts">Apps</string>
+    <string name="nav_permissions">Access</string>
+
+    <!-- Accessibility -->
+    <string name="accessibility_service_label">TouchFlow Assistive Actions</string>
+    <string name="accessibility_service_description">Allows TouchFlow to perform system navigation actions (Home, Back, Recent Apps, Screenshot, Lock Screen, Minimize, Notification Panel, Quick Settings, Power Menu) and detect active app packages for MiniMax. TouchFlow never reads screen content or collects personal data.</string>
+
+    <!-- Notification -->
+    <string name="notif_channel_name">TouchFlow Overlay Service</string>
+    <string name="notif_channel_desc">Keeps the TouchFlow floating assistive button responsive across apps</string>
+    <string name="notif_title">TouchFlow is active</string>
+    <string name="notif_text">Tap to configure floating button, gestures, MiniMax &amp; shortcuts</string>
+    <string name="notif_action_toggle_menu">Open Menu</string>
+    <string name="notif_action_stop">Turn Off</string>
+
+    <!-- Dashboard -->
+    <string name="dashboard_status_active">Floating Assistant Active</string>
+    <string name="dashboard_status_inactive">Floating Assistant Off</string>
+    <string name="dashboard_status_desc_active">Your TouchFlow orb floats across apps and stays active even if the app is closed.</string>
+    <string name="dashboard_status_desc_inactive">Enable TouchFlow to show your customizable floating button over other apps.</string>
+    <string name="badge_active">ACTIVE</string>
+    <string name="badge_standby">STANDBY</string>
+    <string name="btn_enable_touchflow">Enable TouchFlow</string>
+    <string name="btn_disable_touchflow">Disable TouchFlow</string>
+    <string name="preview_label">LIVE BUTTON PREVIEW</string>
+    <string name="preview_hint">Reflects size, opacity, color &amp; icon live</string>
+    <string name="config_summary_title">Active Configuration</string>
+    <string name="permissions_health_title">Permission Readiness</string>
+    <string name="quick_tools_title">Quick Actions</string>
+    <string name="dash_perm_ready_format">%1$d / %2$d Ready</string>
+    <string name="dash_perm_granted">Granted</string>
+    <string name="dash_perm_required">Required</string>
+    <string name="dash_perm_enabled">Enabled</string>
+    <string name="dash_perm_needed_nav">Needed for Home/Back/Minimize</string>
+    <string name="dash_perm_allowed">Allowed</string>
+    <string name="dash_perm_recommended">Recommended</string>
+    <string name="dash_perm_optional_settings">Optional for Brightness/Rotation</string>
+    <string name="dash_perm_detail_template">• Display Over Apps: %1$s\n• Accessibility Actions: %2$s\n• Notifications: %3$s\n• System Settings: %4$s</string>
+    <string name="dash_config_summary_template">• Orb: %1$d dp • %2$d%% Opacity • %3$s\n• Theme &amp; Layout: %4$s • %5$s\n• Single / Double Tap: %6$s / %7$s\n• Favorite App Shortcuts: %8$d / %9$d pinned</string>
+    <string name="dash_torch_on">Torch ON</string>
+    <string name="msg_enable_touchflow_menu">Enable TouchFlow first to open the floating menu.</string>
+    <string name="msg_enable_touchflow_panel">Enable TouchFlow first to open the Quick Access Panel.</string>
+    <string name="msg_enable_touchflow_minimize">Enable TouchFlow or Accessibility to minimize the active app.</string>
+
+    <!-- Actions -->
+    <string name="action_home">Home</string>
+    <string name="action_back">Back</string>
+    <string name="action_recents">Recent Apps</string>
+    <string name="action_screenshot">Screenshot</string>
+    <string name="action_lock_screen">Lock Screen</string>
+    <string name="action_volume_up">Volume +</string>
+    <string name="action_volume_down">Volume -</string>
+    <string name="action_brightness">Brightness</string>
+    <string name="action_wifi">Wi-Fi</string>
+    <string name="action_bluetooth">Bluetooth</string>
+    <string name="action_flashlight">Flashlight</string>
+    <string name="action_rotation">Rotation</string>
+    <string name="action_notifications">Notifications</string>
+    <string name="action_quick_settings">Quick Settings</string>
+    <string name="action_power_menu">Power Menu</string>
+    <string name="action_open_settings">Settings</string>
+    <string name="action_quick_panel">Quick Panel</string>
+    <string name="action_open_menu">Open Menu</string>
+    <string name="action_minimize">Minimize</string>
+    <string name="action_none">None</string>
+
+    <!-- Feedback Messages -->
+    <string name="msg_overlay_permission_required">Please grant "Display over other apps" permission first.</string>
+    <string name="msg_accessibility_required">Enable TouchFlow in Accessibility Settings to use %1$s.</string>
+    <string name="msg_write_settings_required">Allow "Modify system settings" to change %1$s directly.</string>
+    <string name="msg_screenshot_api_unsupported">System screenshot requires Android 9 (API 28) or higher.</string>
+    <string name="msg_lock_api_unsupported">Lock Screen via Accessibility requires Android 9 (API 28) or higher.</string>
+    <string name="msg_flashlight_unavailable">Flashlight hardware is unavailable on this device.</string>
+    <string name="msg_rotation_toggled">Auto-rotate %1$s</string>
+    <string name="msg_max_shortcuts">Maximum 8 favorite app shortcuts allowed.</string>
+    <string name="msg_app_launch_failed">Unable to open selected application.</string>
+    <string name="msg_minimized_to_dock">%1$s minimized to floating dock</string>
+    <string name="msg_minimized_home">Minimized to home screen</string>
+
+    <!-- Quick Access Panel -->
+    <string name="quick_panel_title">Quick Access</string>
+    <string name="quick_panel_volume">Media Volume</string>
+    <string name="quick_panel_brightness">Brightness</string>
+    <string name="quick_panel_favorites">Favorite Apps</string>
+    <string name="quick_panel_no_favorites">No favorite apps added yet. Add up to 8 in TouchFlow → Apps.</string>
+    <string name="status_connected">Connected</string>
+    <string name="status_on">On</string>
+    <string name="status_off">Off</string>
+    <string name="status_tap_view">Tap to view</string>
+    <string name="status_unavailable">Unavailable</string>
+    <string name="status_settings">Settings</string>
+
+    <!-- Appearance -->
+    <string name="appearance_title">Appearance</string>
+    <string name="appearance_subtitle">Customize floating orb geometry, glow, theme, and menu style</string>
+    <string name="appearance_button_section">Floating Button</string>
+    <string name="appearance_size_label">Button Size (35–80 dp)</string>
+    <string name="appearance_opacity_label">Opacity (10–100%)</string>
+    <string name="appearance_shadow_label">Shadow Intensity</string>
+    <string name="appearance_anim_speed_label">Animation Speed</string>
+    <string name="speed_smooth">Smooth</string>
+    <string name="speed_balanced">Balanced</string>
+    <string name="speed_snappy">Snappy</string>
+    <string name="appearance_button_icon_label">Button Icon</string>
+    <string name="appearance_button_color_label">Button Color</string>
+    <string name="appearance_icon_color_label">Icon Color</string>
+    <string name="appearance_theme_section">Overlay Theme</string>
+    <string name="appearance_custom_accent_label">Custom Theme Accent</string>
+    <string name="appearance_layout_section">Menu Layout</string>
+    <string name="theme_dark">Dark Mode</string>
+    <string name="theme_light">Light Mode</string>
+    <string name="theme_amoled">AMOLED Black</string>
+    <string name="theme_glass">Transparent Glass</string>
+    <string name="theme_gradient">Gradient Theme</string>
+    <string name="theme_custom">Custom Theme</string>
+    <string name="layout_circular">Circular Menu</string>
+    <string name="layout_grid">Grid Menu</string>
+    <string name="layout_rectangle">Floating Rectangle</string>
+    <string name="layout_compact">Compact Menu</string>
+
+    <!-- Gestures -->
+    <string name="gestures_title">Gestures &amp; Feedback</string>
+    <string name="gestures_subtitle">Map taps, long press, and swipes on the floating button</string>
+    <string name="gestures_touch_actions_title">Touch Actions</string>
+    <string name="gesture_single_tap">Single Tap</string>
+    <string name="gesture_single_tap_desc">Primary tap on floating button</string>
+    <string name="gesture_double_tap">Double Tap</string>
+    <string name="gesture_double_tap_desc">Quick double tap shortcut</string>
+    <string name="gesture_long_press">Long Press</string>
+    <string name="gesture_long_press_desc">Hold floating button briefly</string>
+    <string name="gesture_swipe">Swipe Gesture</string>
+    <string name="gesture_swipe_desc">Quick vertical flick on orb</string>
+    <string name="gestures_behavior_title">Behavior &amp; Haptics</string>
+    <string name="gesture_haptic">Haptic Feedback</string>
+    <string name="gesture_haptic_desc">Subtle vibration on orb &amp; menu taps</string>
+    <string name="gesture_edge_snap">Snap to Screen Edge</string>
+    <string name="gesture_edge_snap_desc">Smoothly dock to nearest side after drag</string>
+    <string name="gesture_idle_dim">Auto-Dim When Idle</string>
+    <string name="gesture_idle_dim_desc">Fade button gently when untouched for 3s</string>
+
+    <!-- Shortcuts -->
+    <string name="shortcuts_title">App Shortcuts</string>
+    <string name="shortcuts_subtitle">Pin up to 8 favorite apps directly inside your floating menu</string>
+    <string name="btn_add_shortcut">Add App Shortcut</string>
+    <string name="shortcuts_empty_title">No App Shortcuts Yet</string>
+    <string name="shortcuts_empty_desc">Tap "Add App Shortcut" to pick up to 8 installed apps for instant launch from TouchFlow.</string>
+    <string name="search_apps_hint">Search installed apps...</string>
+
+    <!-- Permissions -->
+    <string name="permissions_title">System Access</string>
+    <string name="permissions_subtitle">TouchFlow uses only official Android APIs and requests permissions transparently</string>
+    <string name="perm_overlay_title">Display Over Other Apps</string>
+    <string name="perm_overlay_desc">Required to float the TouchFlow orb, menu, and MiniMax/Minimize dock above any app.</string>
+    <string name="perm_overlay_btn_open">Open Overlay Settings</string>
+    <string name="perm_overlay_btn_grant">Grant Overlay Permission</string>
+    <string name="perm_access_title">Accessibility Service</string>
+    <string name="perm_access_desc">Enables Home, Back, Recent Apps, Screenshot, Lock Screen, Minimize, and MiniMax app detection.</string>
+    <string name="perm_access_btn_open">Accessibility Settings</string>
+    <string name="perm_access_btn_grant">Enable Accessibility Service</string>
+    <string name="perm_notif_title">Notification Permission</string>
+    <string name="perm_notif_desc">Displays the low-priority Foreground Service status notification so the floating orb stays alive even when the app is closed.</string>
+    <string name="perm_notif_btn_open">Notification Settings</string>
+    <string name="perm_notif_btn_grant">Allow Notifications</string>
+    <string name="perm_write_title">Modify System Settings</string>
+    <string name="perm_write_desc">Optional permission allowing TouchFlow to adjust Screen Brightness and Auto-Rotation directly.</string>
+    <string name="perm_write_btn">Open Modify Settings</string>
+    <string name="perm_bt_title">Bluetooth Status Access</string>
+    <string name="perm_bt_desc">Optional permission to display live Bluetooth On/Off state inside the Quick Access Panel.</string>
+    <string name="perm_bt_btn_ok">Bluetooth Granted</string>
+    <string name="perm_bt_btn_grant">Allow Bluetooth Status</string>
+    <string name="perm_battery_title">Keep Active When App Closed</string>
+    <string name="perm_battery_desc">If your phone (TECNO HiOS, Xiaomi, OPPO) closes background services after swiping Recents, set TouchFlow battery usage to "Unrestricted".</string>
+    <string name="perm_battery_btn">Battery Optimization Settings</string>
+    <string name="perm_battery_unrestricted">Unrestricted</string>
+    <string name="perm_battery_optimized">Optimized</string>
+    <string name="perm_fgs_title">Foreground Overlay Service</string>
+    <string name="perm_fgs_desc">Runs with foregroundServiceType="specialUse" while TouchFlow is enabled, even after closing the main app from Recents.</string>
+    <string name="badge_granted">Granted</string>
+    <string name="badge_required">Required</string>
+    <string name="badge_enabled">Enabled</string>
+    <string name="badge_required_nav">Required for Nav</string>
+    <string name="badge_allowed">Allowed</string>
+    <string name="badge_recommended">Recommended</string>
+    <string name="badge_optional">Optional</string>
+    <string name="badge_running">Running</string>
+
+    <!-- Common buttons -->
+    <string name="btn_save">Save</string>
+    <string name="btn_cancel">Cancel</string>
+    <string name="btn_close">Close</string>
+
+    <!-- About -->
+    <string name="about_version_label">Version 1.2.0</string>
+    <string name="about_dev_info">Crafted with native Android APIs (WindowManager, AccessibilityService, Foreground Service, DynamicAnimation, and Material Design 3).</string>
+    <string name="about_privacy_title">Privacy &amp; Transparency Policy</string>
+    <string name="about_privacy_body">TouchFlow operates 100% locally on your device.\n\n• Zero Data Collection: TouchFlow does not collect, store, transmit, or share personal data, keystrokes, screen contents, or usage analytics.\n\n• Accessibility Service Usage: Used exclusively for user-initiated global actions (Home, Back, Recent Apps, Screenshot, Lock Screen, Minimize, Notifications, Quick Settings, Power Dialog) and reading active package names for MiniMax. Window content retrieval is disabled.\n\n• Overlay &amp; Foreground Service: Used while TouchFlow is enabled to keep the floating assistant visible even when the main app task is closed.\n\n• Package Queries: Used only to select favorite app shortcuts and MiniMax app rules.</string>
+
+    <!-- Content descriptions -->
+    <string name="cd_about_button">Open About and Privacy Info</string>
+    <string name="cd_open_minimax">Open MiniMax Assistant</string>
+    <string name="cd_floating_button">TouchFlow floating assistive button</string>
+    <string name="cd_move_up">Move shortcut up</string>
+    <string name="cd_move_down">Move shortcut down</string>
+    <string name="cd_remove_shortcut">Remove shortcut</string>
+    <string name="cd_close_menu">Close floating menu</string>
+    <string name="cd_back_to_menu">Back to assistive menu</string>
+    <string name="cd_minimize_dock">Minimize or expand floating dock</string>
+
+    <!-- MiniMax & Minimize -->
+    <string name="minimax_title">MiniMax Assistant</string>
+    <string name="minimax_subtitle">Auto Mini Window &amp; OEM Floating Engine</string>
+    <string name="action_minimax">MiniMax</string>
+    <string name="dash_minimax_title">MiniMax &amp; Minimize</string>
+    <string name="dash_minimax_open">Open MiniMax</string>
+    <string name="minimax_setup_needed_title">Setup Required for Auto Detection</string>
+    <string name="minimax_open_access_btn">Open TouchFlow Access</string>
+    <string name="minimax_controls_title">Automation &amp; Minimize Controls</string>
+    <string name="minimax_auto_mini">Auto Mini</string>
+    <string name="minimax_auto_mini_desc">Automatically trigger MiniMax when leaving active apps</string>
+    <string name="minimax_floating_assistant">Floating Assistant</string>
+    <string name="minimax_floating_assistant_desc">Show MiniMax Quick Dock &amp; OEM fallback overlay</string>
+    <string name="minimax_auto_home">Auto Mini on Home</string>
+    <string name="minimax_auto_home_desc">Detect last active app when pressing Home</string>
+    <string name="minimax_auto_switch">Auto Mini on App Switching</string>
+    <string name="minimax_auto_switch_desc">Trigger when switching between active apps</string>
+    <string name="minimax_minimize_now_btn">Minimize Now</string>
+    <string name="minimax_app_rules_title">Application Rules</string>
+    <string name="minimax_only_supported">Only Supported Apps List</string>
+    <string name="minimax_only_supported_desc">Off = all apps except Excluded list</string>
+    <string name="minimax_supported_apps">Supported Applications</string>
+    <string name="minimax_supported_apps_desc">Facebook, YouTube, WhatsApp &amp; custom picks</string>
+    <string name="minimax_excluded_apps">Excluded Applications</string>
+    <string name="minimax_excluded_apps_desc">Apps skipped by MiniMax automation</string>
+    <string name="minimax_apps_count_format">%1$d apps</string>
+    <string name="minimax_geometry_title">Mini Window Geometry</string>
+    <string name="minimax_window_position">Window Position</string>
+    <string name="minimax_window_size">Window Size</string>
+    <string name="minimax_pos_top_left">Top Left</string>
+    <string name="minimax_pos_top_right">Top Right</string>
+    <string name="minimax_pos_center">Center</string>
+    <string name="minimax_pos_bottom_left">Bottom Left</string>
+    <string name="minimax_pos_bottom_right">Bottom Right</string>
+    <string name="minimax_size_compact">Compact (55%)</string>
+    <string name="minimax_size_balanced">Balanced (70%)</string>
+    <string name="minimax_size_large">Large (85%)</string>
+    <string name="minimax_compat_title">Device Compatibility Engine</string>
+    <string name="minimax_compat_guide_btn">OEM Setup &amp; Freeform Guide</string>
+    <string name="minimax_history_title">Automation History</string>
+    <string name="minimax_test_last_app">Test Last App</string>
+    <string name="minimax_clear_history">Clear</string>
+    <string name="minimax_last_app_none">Last tracked app: None yet</string>
+    <string name="minimax_last_app_format">Last tracked app: %1$s (%2$s)</string>
+    <string name="minimax_history_empty">No automation events recorded yet. Open an app (like Facebook) and press Home or Minimize when active.</string>
+    <string name="minimax_dock_ready">MiniMax Ready</string>
+    <string name="minimax_dock_tap_mini">Tap for Mini Window</string>
+    <string name="minimax_dock_open_app_hint">Open an app to track</string>
+    <string name="minimax_dock_minimized_chip">Minimize</string>
+    <string name="minimax_trigger_home">Home Press</string>
+    <string name="minimax_trigger_switch">App Switch</string>
+    <string name="minimax_trigger_manual">MiniMax Dock</string>
+    <string name="minimax_trigger_minimize">Minimize</string>
+    <string name="minimax_status_freeform">Freeform</string>
+    <string name="minimax_status_fallback">Fallback</string>
+    <string name="minimax_dev_settings_btn">Developer Settings</string>
+    <string name="minimax_need_access_toast">Enable TouchFlow Accessibility Service in Access tab to detect Home &amp; app switches.</string>
+    <string name="minimax_perm_overlay_missing">• Display Over Other Apps is needed to show the MiniMax / Minimize Floating Dock.</string>
+    <string name="minimax_perm_access_missing">• TouchFlow Accessibility Service is needed to detect when you press Home or switch from apps like Facebook.</string>
+</resources>

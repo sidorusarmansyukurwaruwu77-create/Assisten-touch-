@@ -130,7 +130,7 @@ public class ShortcutsFragment extends Fragment {
 
         final AlertDialog dialog = new MaterialAlertDialogBuilder(requireContext())
                 .setView(dialogView)
-                .setNegativeButton("Close", null)
+                .setNegativeButton(R.string.btn_close, null)
                 .create();
 
         InstalledAppAdapter appAdapter = new InstalledAppAdapter(requireContext(), available, app -> {

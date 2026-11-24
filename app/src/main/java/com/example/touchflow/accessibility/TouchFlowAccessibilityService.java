@@ -1,31 +1,62 @@
 package com.example.touchflow.accessibility;
 
 import android.accessibilityservice.AccessibilityService;
+import android.content.Context;
 import android.os.Build;
+import android.os.SystemClock;
 import android.view.accessibility.AccessibilityEvent;
 
 import com.example.touchflow.minimax.engine.MiniMaxAutomationEngine;
+import com.example.touchflow.preferences.TouchFlowPreferences;
+import com.example.touchflow.services.FloatingOverlayService;
+import com.example.touchflow.utilities.LocaleHelper;
+import com.example.touchflow.utilities.PermissionHelper;
 
 import java.lang.ref.WeakReference;
 
 public class TouchFlowAccessibilityService extends AccessibilityService {
 
     private static WeakReference<TouchFlowAccessibilityService> instanceRef = new WeakReference<>(null);
+    private static final long WATCHDOG_INTERVAL_MS = 3000L;
+    private long lastWatchdogCheckMs = 0L;
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(LocaleHelper.wrap(newBase));
+    }
 
     @Override
     protected void onServiceConnected() {
         super.onServiceConnected();
         instanceRef = new WeakReference<>(this);
+        ensureFloatingOverlayAlive();
     }
 
     @Override
     public void onAccessibilityEvent(AccessibilityEvent event) {
         if (event == null) return;
+        long now = SystemClock.elapsedRealtime();
+        if (now - lastWatchdogCheckMs >= WATCHDOG_INTERVAL_MS) {
+            lastWatchdogCheckMs = now;
+            ensureFloatingOverlayAlive();
+        }
         if (event.getEventType() == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED
                 && event.getPackageName() != null) {
             // Read only the active window package name (canRetrieveWindowContent remains false).
             MiniMaxAutomationEngine.getInstance(this)
                     .onWindowStateChanged(event.getPackageName().toString());
+        }
+    }
+
+    private void ensureFloatingOverlayAlive() {
+        try {
+            TouchFlowPreferences prefs = new TouchFlowPreferences(this);
+            if (prefs.isServiceEnabled()
+                    && PermissionHelper.canDrawOverlays(this)
+                    && !FloatingOverlayService.isServiceRunning()) {
+                FloatingOverlayService.startService(this);
+            }
+        } catch (Exception ignored) {
         }
     }
 
@@ -52,6 +83,17 @@ public class TouchFlowAccessibilityService extends AccessibilityService {
 
     public static boolean isConnected() {
         return instanceRef.get() != null;
+    }
+
+    public static boolean performHomeRaw() {
+        TouchFlowAccessibilityService service = getInstance();
+        return service != null && service.performGlobalAction(GLOBAL_ACTION_HOME);
+    }
+
+    public static boolean performMinimize() {
+        TouchFlowAccessibilityService service = getInstance();
+        if (service == null) return false;
+        return MiniMaxAutomationEngine.getInstance(service).triggerMinimizeAction();
     }
 
     public static boolean performHome() {

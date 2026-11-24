@@ -1,5 +1,6 @@
 package com.example.touchflow.services;
 
+import android.app.AlarmManager;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -12,6 +13,7 @@ import android.content.pm.ServiceInfo;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.IBinder;
+import android.os.SystemClock;
 import android.view.WindowManager;
 
 import androidx.annotation.Nullable;
@@ -30,6 +32,8 @@ import com.example.touchflow.overlay.FloatingButtonController;
 import com.example.touchflow.overlay.FloatingMenuController;
 import com.example.touchflow.overlay.QuickAccessPanelController;
 import com.example.touchflow.preferences.TouchFlowPreferences;
+import com.example.touchflow.receivers.OverlayRestartReceiver;
+import com.example.touchflow.utilities.LocaleHelper;
 import com.example.touchflow.utilities.PermissionHelper;
 import com.example.touchflow.utilities.SystemActionHelper;
 
@@ -40,6 +44,7 @@ public class FloatingOverlayService extends Service {
     public static final String ACTION_OPEN_MENU = "com.example.touchflow.ACTION_OPEN_MENU";
     public static final String ACTION_OPEN_QUICK_PANEL = "com.example.touchflow.ACTION_OPEN_QUICK_PANEL";
     public static final String ACTION_OPEN_MINIMAX = "com.example.touchflow.ACTION_OPEN_MINIMAX";
+    public static final String ACTION_MINIMIZE_NOW = "com.example.touchflow.ACTION_MINIMIZE_NOW";
 
     private static final String CHANNEL_ID = "touchflow_overlay_channel";
     private static final int NOTIFICATION_ID = 1042;
@@ -63,6 +68,10 @@ public class FloatingOverlayService extends Service {
                     stopOverlayAndSelf();
                     return;
                 }
+                if (TouchFlowPreferences.KEY_APP_LANGUAGE.equals(key)) {
+                    createNotificationChannel();
+                    startInForeground();
+                }
                 if (buttonController != null) {
                     buttonController.applyConfig(currentConfig);
                 }
@@ -79,6 +88,11 @@ public class FloatingOverlayService extends Service {
                     miniMaxController.remove();
                 }
             };
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(LocaleHelper.wrap(newBase));
+    }
 
     public static boolean isServiceRunning() {
         return isRunning;
@@ -113,6 +127,16 @@ public class FloatingOverlayService extends Service {
     public static void openMiniMaxDockFromApp(Context context) {
         Intent intent = new Intent(context, FloatingOverlayService.class);
         intent.setAction(ACTION_OPEN_MINIMAX);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            context.startForegroundService(intent);
+        } else {
+            context.startService(intent);
+        }
+    }
+
+    public static void minimizeFromApp(Context context) {
+        Intent intent = new Intent(context, FloatingOverlayService.class);
+        intent.setAction(ACTION_MINIMIZE_NOW);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             context.startForegroundService(intent);
         } else {
@@ -193,16 +217,17 @@ public class FloatingOverlayService extends Service {
         );
 
         MiniMaxAutomationEngine.getInstance(this).setDockEventListener(
-                (packageName, appLabel, statusDetail, wasFreeformLaunched) -> {
+                (packageName, appLabel, statusDetail, wasFreeformLaunched, startMinimized) -> {
                     if (!isRunning || miniMaxController == null || miniMaxPreferences == null) return;
                     if (!PermissionHelper.canDrawOverlays(this)) return;
                     MiniMaxConfig mmConfig = miniMaxPreferences.loadConfig();
                     if (!mmConfig.floatingAssistantEnabled) return;
                     currentConfig = preferences.loadConfig();
+                    Context uiCtx = LocaleHelper.wrap(this);
                     String subtitle = wasFreeformLaunched
-                            ? "Mini Window Ready"
-                            : "Tap to Open Mini";
-                    miniMaxController.showOrUpdate(currentConfig, packageName, appLabel, subtitle);
+                            ? uiCtx.getString(R.string.minimax_dock_ready)
+                            : uiCtx.getString(R.string.minimax_dock_tap_mini);
+                    miniMaxController.showOrUpdate(currentConfig, packageName, appLabel, subtitle, startMinimized);
                 }
         );
 
@@ -222,6 +247,11 @@ public class FloatingOverlayService extends Service {
         }
 
         currentConfig = preferences.loadConfig();
+        if (!currentConfig.serviceEnabled) {
+            stopOverlayAndSelf();
+            return START_NOT_STICKY;
+        }
+
         String action = intent != null ? intent.getAction() : ACTION_START;
 
         if (ACTION_STOP.equals(action)) {
@@ -238,9 +268,38 @@ public class FloatingOverlayService extends Service {
             showQuickPanel();
         } else if (ACTION_OPEN_MINIMAX.equals(action)) {
             showMiniMaxDockFromEngineOrLast();
+        } else if (ACTION_MINIMIZE_NOW.equals(action)) {
+            executeSystemAction(ActionItem.MINIMIZE);
         }
 
         return START_STICKY;
+    }
+
+    @Override
+    public void onTaskRemoved(Intent rootIntent) {
+        super.onTaskRemoved(rootIntent);
+        // Keep floating button alive even when user swipes TouchFlow from Recents ("close penuh").
+        try {
+            if (preferences != null && preferences.isServiceEnabled() && PermissionHelper.canDrawOverlays(this)) {
+                Intent restartIntent = new Intent(getApplicationContext(), OverlayRestartReceiver.class);
+                restartIntent.setAction(OverlayRestartReceiver.ACTION_RESTART_OVERLAY);
+                PendingIntent pendingIntent = PendingIntent.getBroadcast(
+                        getApplicationContext(),
+                        2042,
+                        restartIntent,
+                        PendingIntent.FLAG_ONE_SHOT | PendingIntent.FLAG_IMMUTABLE
+                );
+                AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+                if (alarmManager != null) {
+                    alarmManager.set(
+                            AlarmManager.ELAPSED_REALTIME_WAKEUP,
+                            SystemClock.elapsedRealtime() + 350L,
+                            pendingIntent
+                    );
+                }
+            }
+        } catch (Exception ignored) {
+        }
     }
 
     @Override
@@ -324,11 +383,18 @@ public class FloatingOverlayService extends Service {
             quickPanelController.dismiss(true);
         }
         currentConfig = preferences.loadConfig();
+        Context uiCtx = LocaleHelper.wrap(this);
         String lastPkg = MiniMaxAutomationEngine.getInstance(this).getLastActiveAppPackage();
         String label = (lastPkg != null && !lastPkg.isEmpty())
                 ? AppCapabilityInspector.getAppLabel(this, lastPkg)
-                : getString(R.string.minimax_title);
-        miniMaxController.showOrUpdate(currentConfig, lastPkg, label, "Tap for Mini Window");
+                : uiCtx.getString(R.string.minimax_title);
+        miniMaxController.showOrUpdate(
+                currentConfig,
+                lastPkg,
+                label,
+                uiCtx.getString(R.string.minimax_dock_tap_mini),
+                false
+        );
     }
 
     private void executeSystemAction(ActionItem action) {
@@ -373,12 +439,13 @@ public class FloatingOverlayService extends Service {
 
     private void createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            Context uiCtx = LocaleHelper.wrap(this);
             NotificationChannel channel = new NotificationChannel(
                     CHANNEL_ID,
-                    getString(R.string.notif_channel_name),
+                    uiCtx.getString(R.string.notif_channel_name),
                     NotificationManager.IMPORTANCE_LOW
             );
-            channel.setDescription(getString(R.string.notif_channel_desc));
+            channel.setDescription(uiCtx.getString(R.string.notif_channel_desc));
             channel.setShowBadge(false);
             NotificationManager manager = getSystemService(NotificationManager.class);
             if (manager != null) {
@@ -388,6 +455,8 @@ public class FloatingOverlayService extends Service {
     }
 
     private void startInForeground() {
+        Context uiCtx = LocaleHelper.wrap(this);
+
         Intent openAppIntent = new Intent(this, MainActivity.class);
         PendingIntent contentPending = PendingIntent.getActivity(
                 this, 0, openAppIntent,
@@ -408,15 +477,15 @@ public class FloatingOverlayService extends Service {
                 PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
         );
 
-        Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
+        Notification notification = new NotificationCompat.Builder(uiCtx, CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_orb_ring)
-                .setContentTitle(getString(R.string.notif_title))
-                .setContentText(getString(R.string.notif_text))
+                .setContentTitle(uiCtx.getString(R.string.notif_title))
+                .setContentText(uiCtx.getString(R.string.notif_text))
                 .setOngoing(true)
                 .setPriority(NotificationCompat.PRIORITY_LOW)
                 .setContentIntent(contentPending)
-                .addAction(0, getString(R.string.notif_action_toggle_menu), menuPending)
-                .addAction(0, getString(R.string.notif_action_stop), stopPending)
+                .addAction(0, uiCtx.getString(R.string.notif_action_toggle_menu), menuPending)
+                .addAction(0, uiCtx.getString(R.string.notif_action_stop), stopPending)
                 .build();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {

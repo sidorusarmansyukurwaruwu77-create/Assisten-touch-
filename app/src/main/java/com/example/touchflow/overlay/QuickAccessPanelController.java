@@ -27,6 +27,7 @@ import com.example.touchflow.models.AppShortcut;
 import com.example.touchflow.models.TouchFlowConfig;
 import com.example.touchflow.preferences.TouchFlowPreferences;
 import com.example.touchflow.utilities.AppPackageHelper;
+import com.example.touchflow.utilities.LocaleHelper;
 import com.example.touchflow.utilities.SystemActionHelper;
 import com.example.touchflow.utilities.ViewAnimationHelper;
 
@@ -47,6 +48,7 @@ public class QuickAccessPanelController {
 
     private View rootView;
     private LinearLayout cardView;
+    private Context uiContext;
     private boolean isShowing = false;
     private TouchFlowConfig currentConfig;
 
@@ -71,7 +73,8 @@ public class QuickAccessPanelController {
         this.currentConfig = config;
         if (isShowing) return;
 
-        LayoutInflater inflater = LayoutInflater.from(context);
+        uiContext = LocaleHelper.wrap(context);
+        LayoutInflater inflater = LayoutInflater.from(uiContext);
         rootView = inflater.inflate(R.layout.overlay_quick_access_panel, null);
         cardView = rootView.findViewById(R.id.quick_panel_card);
 
@@ -117,7 +120,7 @@ public class QuickAccessPanelController {
         int secondaryText = OverlayThemeApplier.getSecondaryTextColor(config);
         int accent = OverlayThemeApplier.getAccentColor(config);
 
-        OverlayThemeApplier.applyPanelBackground(context, cardView, config, 26f);
+        OverlayThemeApplier.applyPanelBackground(uiContext, cardView, config, 26f);
 
         TextClock tcTime = rootView.findViewById(R.id.tc_qp_time);
         TextClock tcDate = rootView.findViewById(R.id.tc_qp_date);
@@ -146,11 +149,12 @@ public class QuickAccessPanelController {
     }
 
     private void bindStatusPills(TouchFlowConfig config, int primaryText, int accent) {
+        Context ctx = uiContext != null ? uiContext : LocaleHelper.wrap(context);
         LinearLayout batteryPill = rootView.findViewById(R.id.pill_qp_battery);
         ImageView ivBattery = rootView.findViewById(R.id.iv_qp_battery);
         TextView tvBattery = rootView.findViewById(R.id.tv_qp_battery);
         SystemActionHelper.BatteryInfo battery = systemActionHelper.getBatteryInfo();
-        OverlayThemeApplier.applyTileBackground(context, batteryPill, config, battery.charging);
+        OverlayThemeApplier.applyTileBackground(ctx, batteryPill, config, battery.charging);
         ImageViewCompat.setImageTintList(ivBattery, ColorStateList.valueOf(battery.charging ? accent : primaryText));
         tvBattery.setTextColor(primaryText);
         tvBattery.setText(battery.charging ? (battery.percent + "% ⚡") : (battery.percent + "%"));
@@ -159,11 +163,11 @@ public class QuickAccessPanelController {
         ImageView ivWifi = rootView.findViewById(R.id.iv_qp_wifi);
         TextView tvWifi = rootView.findViewById(R.id.tv_qp_wifi);
         String wifiStatus = systemActionHelper.getWifiStatusLabel();
-        boolean wifiActive = "Connected".equals(wifiStatus) || "On".equals(wifiStatus);
-        OverlayThemeApplier.applyTileBackground(context, wifiPill, config, wifiActive);
+        boolean wifiActive = systemActionHelper.isWifiActive();
+        OverlayThemeApplier.applyTileBackground(ctx, wifiPill, config, wifiActive);
         ImageViewCompat.setImageTintList(ivWifi, ColorStateList.valueOf(wifiActive ? accent : primaryText));
         tvWifi.setTextColor(primaryText);
-        tvWifi.setText("Wi-Fi: " + wifiStatus);
+        tvWifi.setText(ctx.getString(R.string.action_wifi) + ": " + wifiStatus);
         wifiPill.setOnClickListener(v -> {
             systemActionHelper.performHaptic(config.hapticEnabled);
             dismiss(true);
@@ -174,8 +178,8 @@ public class QuickAccessPanelController {
         ImageView ivBt = rootView.findViewById(R.id.iv_qp_bluetooth);
         TextView tvBt = rootView.findViewById(R.id.tv_qp_bluetooth);
         String btStatus = systemActionHelper.getBluetoothStatusLabel();
-        boolean btActive = "On".equals(btStatus);
-        OverlayThemeApplier.applyTileBackground(context, btPill, config, btActive);
+        boolean btActive = systemActionHelper.isBluetoothActive();
+        OverlayThemeApplier.applyTileBackground(ctx, btPill, config, btActive);
         ImageViewCompat.setImageTintList(ivBt, ColorStateList.valueOf(btActive ? accent : primaryText));
         tvBt.setTextColor(primaryText);
         tvBt.setText("BT: " + btStatus);
@@ -267,6 +271,7 @@ public class QuickAccessPanelController {
     }
 
     private void bindFlashlightButton(TouchFlowConfig config, int primaryText, int accent) {
+        Context ctx = uiContext != null ? uiContext : LocaleHelper.wrap(context);
         LinearLayout btnFlash = rootView.findViewById(R.id.btn_qp_flashlight);
         ImageView ivFlash = rootView.findViewById(R.id.iv_qp_flashlight);
         TextView tvFlash = rootView.findViewById(R.id.tv_qp_flashlight);
@@ -275,10 +280,10 @@ public class QuickAccessPanelController {
         Runnable refreshUi = () -> {
             if (!isShowing || rootView == null) return;
             boolean on = systemActionHelper.isTorchOn();
-            OverlayThemeApplier.applyTileBackground(context, btnFlash, config, on);
+            OverlayThemeApplier.applyTileBackground(ctx, btnFlash, config, on);
             ImageViewCompat.setImageTintList(ivFlash, ColorStateList.valueOf(on ? accent : primaryText));
             tvFlash.setTextColor(primaryText);
-            tvState.setText(on ? "ON" : "OFF");
+            tvState.setText(ctx.getString(on ? R.string.status_on : R.string.status_off));
             tvState.setTextColor(on ? accent : OverlayThemeApplier.getSecondaryTextColor(config));
         };
 
