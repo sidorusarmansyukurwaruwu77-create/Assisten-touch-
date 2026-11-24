@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/floating_button_root"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:clipChildren="false"
+    android:clipToPadding="false"
+    android:padding="6dp">
+
+    <FrameLayout
+        android:id="@+id/floating_orb_container"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:clickable="true"
+        android:contentDescription="@string/cd_floating_button"
+        android:focusable="true">
+
+        <ImageView
+            android:id="@+id/floating_orb_icon"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_gravity="center"
+            android:contentDescription="@null"
+            android:src="@drawable/ic_orb_ring" />
+    </FrameLayout>
+
+</FrameLayout>

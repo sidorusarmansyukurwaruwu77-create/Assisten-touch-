@@ -1,0 +1,113 @@
+<resources>
+    <string name="app_name">TouchFlow</string>
+    <string name="app_tagline">Assistive Touch</string>
+    <string name="about_title">About TouchFlow</string>
+
+    <!-- Navigation -->
+    <string name="nav_dashboard">Home</string>
+    <string name="nav_appearance">Style</string>
+    <string name="nav_gestures">Gestures</string>
+    <string name="nav_shortcuts">Apps</string>
+    <string name="nav_permissions">Access</string>
+
+    <!-- Accessibility -->
+    <string name="accessibility_service_label">TouchFlow Assistive Actions</string>
+    <string name="accessibility_service_description">Allows TouchFlow to perform system navigation actions (Home, Back, Recent Apps, Screenshot, Lock Screen, Notification Panel, Quick Settings, and Power Menu) when you tap buttons in the floating menu. TouchFlow never reads screen content or collects personal data.</string>
+
+    <!-- Notification -->
+    <string name="notif_channel_name">TouchFlow Overlay Service</string>
+    <string name="notif_channel_desc">Keeps the TouchFlow floating assistive button responsive across apps</string>
+    <string name="notif_title">TouchFlow is active</string>
+    <string name="notif_text">Tap to configure floating button, gestures, and shortcuts</string>
+    <string name="notif_action_toggle_menu">Open Menu</string>
+    <string name="notif_action_stop">Turn Off</string>
+
+    <!-- Dashboard -->
+    <string name="dashboard_status_active">Floating Assistant Active</string>
+    <string name="dashboard_status_inactive">Floating Assistant Off</string>
+    <string name="dashboard_status_desc_active">Your TouchFlow orb is floating across apps and ready for gestures.</string>
+    <string name="dashboard_status_desc_inactive">Enable TouchFlow to show your customizable floating button over other apps.</string>
+    <string name="btn_enable_touchflow">Enable TouchFlow</string>
+    <string name="btn_disable_touchflow">Disable TouchFlow</string>
+    <string name="preview_label">LIVE BUTTON PREVIEW</string>
+    <string name="preview_hint">Reflects size, opacity, color &amp; icon live</string>
+    <string name="config_summary_title">Active Configuration</string>
+    <string name="permissions_health_title">Permission Readiness</string>
+    <string name="quick_tools_title">Quick Actions</string>
+
+    <!-- Actions -->
+    <string name="action_home">Home</string>
+    <string name="action_back">Back</string>
+    <string name="action_recents">Recent Apps</string>
+    <string name="action_screenshot">Screenshot</string>
+    <string name="action_lock_screen">Lock Screen</string>
+    <string name="action_volume_up">Volume +</string>
+    <string name="action_volume_down">Volume -</string>
+    <string name="action_brightness">Brightness</string>
+    <string name="action_wifi">Wi-Fi</string>
+    <string name="action_bluetooth">Bluetooth</string>
+    <string name="action_flashlight">Flashlight</string>
+    <string name="action_rotation">Rotation</string>
+    <string name="action_notifications">Notifications</string>
+    <string name="action_quick_settings">Quick Settings</string>
+    <string name="action_power_menu">Power Menu</string>
+    <string name="action_open_settings">Settings</string>
+    <string name="action_quick_panel">Quick Panel</string>
+    <string name="action_open_menu">Open Menu</string>
+    <string name="action_none">None</string>
+
+    <!-- Feedback Messages -->
+    <string name="msg_overlay_permission_required">Please grant "Display over other apps" permission first.</string>
+    <string name="msg_accessibility_required">Enable TouchFlow in Accessibility Settings to use %1$s.</string>
+    <string name="msg_write_settings_required">Allow "Modify system settings" to change %1$s directly.</string>
+    <string name="msg_screenshot_api_unsupported">System screenshot requires Android 9 (API 28) or higher.</string>
+    <string name="msg_lock_api_unsupported">Lock Screen via Accessibility requires Android 9 (API 28) or higher.</string>
+    <string name="msg_flashlight_unavailable">Flashlight hardware is unavailable on this device.</string>
+    <string name="msg_rotation_toggled">Auto-rotate %1$s</string>
+    <string name="msg_max_shortcuts">Maximum 8 favorite app shortcuts allowed.</string>
+    <string name="msg_app_launch_failed">Unable to open selected application.</string>
+
+    <!-- Quick Access Panel -->
+    <string name="quick_panel_title">Quick Access</string>
+    <string name="quick_panel_volume">Media Volume</string>
+    <string name="quick_panel_brightness">Brightness</string>
+    <string name="quick_panel_favorites">Favorite Apps</string>
+    <string name="quick_panel_no_favorites">No favorite apps added yet. Add up to 8 in TouchFlow → Apps.</string>
+
+    <!-- Appearance -->
+    <string name="appearance_title">Appearance</string>
+    <string name="appearance_subtitle">Customize floating orb geometry, glow, theme, and menu style</string>
+    <string name="appearance_button_section">Floating Button</string>
+    <string name="appearance_theme_section">Overlay Theme</string>
+    <string name="appearance_layout_section">Menu Layout</string>
+
+    <!-- Gestures -->
+    <string name="gestures_title">Gestures &amp; Feedback</string>
+    <string name="gestures_subtitle">Map taps, long press, and swipes on the floating button</string>
+
+    <!-- Shortcuts -->
+    <string name="shortcuts_title">App Shortcuts</string>
+    <string name="shortcuts_subtitle">Pin up to 8 favorite apps directly inside your floating menu</string>
+    <string name="btn_add_shortcut">Add App Shortcut</string>
+    <string name="shortcuts_empty_title">No App Shortcuts Yet</string>
+    <string name="shortcuts_empty_desc">Tap "Add App Shortcut" to pick up to 8 installed apps for instant launch from TouchFlow.</string>
+
+    <!-- Permissions -->
+    <string name="permissions_title">System Access</string>
+    <string name="permissions_subtitle">TouchFlow uses only official Android APIs and requests permissions transparently</string>
+
+    <!-- About -->
+    <string name="about_version_label">Version 1.0.0</string>
+    <string name="about_dev_info">Crafted with native Android APIs (WindowManager, AccessibilityService, Foreground Service, DynamicAnimation, and Material Design 3).</string>
+    <string name="about_privacy_title">Privacy &amp; Transparency Policy</string>
+    <string name="about_privacy_body">TouchFlow operates 100% locally on your device.\n\n• Zero Data Collection: TouchFlow does not collect, store, transmit, or share personal data, keystrokes, screen contents, or usage analytics.\n\n• Accessibility Service Usage: Used exclusively to execute user-initiated global actions (Home, Back, Recent Apps, Screenshot, Lock Screen, Notifications, Quick Settings, Power Dialog). Window content retrieval is disabled.\n\n• Overlay &amp; Foreground Service: Used only while TouchFlow is enabled to keep the floating assistant button visible and responsive.\n\n• Package Queries: Used only to let you pick up to 8 installed launcher apps for your personal shortcut list.</string>
+
+    <!-- Content descriptions -->
+    <string name="cd_about_button">Open About and Privacy Info</string>
+    <string name="cd_floating_button">TouchFlow floating assistive button</string>
+    <string name="cd_move_up">Move shortcut up</string>
+    <string name="cd_move_down">Move shortcut down</string>
+    <string name="cd_remove_shortcut">Remove shortcut</string>
+    <string name="cd_close_menu">Close floating menu</string>
+    <string name="cd_back_to_menu">Back to assistive menu</string>
+</resources>
